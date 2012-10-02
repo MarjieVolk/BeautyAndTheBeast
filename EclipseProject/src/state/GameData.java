@@ -3,14 +3,18 @@ package state;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import state.enums.Item;
+import state.enums.Room;
+import state.enums.Time;
+
 
 public class GameData implements Serializable {
 
 	private static final long serialVersionUID = 1160271752038929631L;
 	public static final int INVENTORY_SIZE = 10;
 
-	private HashMap<String, Room> rooms;
-	private String currentRoom;
+	private HashMap<Room, RoomData> rooms;
+	private Room currentRoom;
 	private Item[] inventory;
 	private Time currentTime;
 	private int day;
@@ -37,20 +41,20 @@ public class GameData implements Serializable {
 		return day;
 	}
 	
-	public Room getRoom(String roomName) {
-		return rooms.get(roomName);
+	public RoomData getRoomData(Room room) {
+		return rooms.get(room);
 	}
 	
-	public Room getCurrentRoom() {
+	public RoomData getCurrentRoomData() {
 		return rooms.get(currentRoom);
 	}
 	
-	public String getCurrentRoomName() {
+	public Room getCurrentRoom() {
 		return currentRoom;
 	}
 	
-	public void moveToRoom(String roomName) {
-		currentRoom = roomName;
+	public void moveToRoom(Room room) {
+		currentRoom = room;
 	}
 	
 	public Item getInventoryItem(int index) {

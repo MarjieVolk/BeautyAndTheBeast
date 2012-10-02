@@ -1,4 +1,4 @@
-package state;
+package state.enums;
 
 import java.io.Serializable;
 

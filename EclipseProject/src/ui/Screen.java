@@ -1,69 +1,37 @@
 package ui;
 
-import java.awt.Image;
-import java.awt.Point;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 
-import ui.Screen.Overlay;
+import state.interactionpoints.InteractionPoint;
 
-public class Screen implements Iterable<Overlay> {
+public class Screen {
 
-	private Image background;
-	private LinkedList<Overlay> overlays;
+	private String background;
+	private Collection<Overlay> overlays;
+	private Collection<InteractionPoint> ips;
 
-	public Screen(Image background, Collection<Overlay> overlays) {
+	public Screen(String background, Collection<Overlay> overlays,
+			Collection<InteractionPoint> interactionPoints) {
 		this.background = background;
-		this.overlays = new LinkedList<Overlay>(overlays);
+		this.overlays = overlays;
+		this.ips = interactionPoints;
 	}
 
-	public Image getBackground() {
+	public String getBackground() {
 		return background;
 	}
 
-	public void removeOverlay(Overlay o) {
-		overlays.remove(o);
+	public Overlay[] getOverlays() {
+		return overlays.toArray(new Overlay[overlays.size()]);
 	}
-
-	public void addOverlay(Overlay o) {
-		overlays.add(o);
-	}
-
-	@Override
-	public Iterator<Overlay> iterator() {
-		return new Iterator<Overlay>() {
-
-			private int i = 0;
-			private final Overlay[] ols = overlays.toArray(new Overlay[overlays
-					.size()]);
-
-			@Override
-			public boolean hasNext() {
-				return i < ols.length;
-			}
-
-			@Override
-			public Overlay next() {
-				if (!hasNext()) {
-					throw new IllegalStateException();
-				}
-
-				i++;
-				return ols[i - 1];
-			}
-
-			@Override
-			public void remove() {
-				//NOTE: does not do anything
-			}
-
-		};
+	
+	public InteractionPoint[] getInteractionPoints() {
+		return ips.toArray(new InteractionPoint[ips.size()]);
 	}
 
 	public static class Overlay {
 
-		private Image image;
+		private String image;
 		private int x;
 		private int y;
 
@@ -76,20 +44,20 @@ public class Screen implements Iterable<Overlay> {
 		 *            The top left coordinate of this overlay, with respect to
 		 *            the background image
 		 */
-		public Overlay(Image image, int x, int y) {
+		public Overlay(String image, int x, int y) {
 			this.image = image;
 			this.x = x;
 			this.y = y;
 		}
 
-		public Image getImage() {
+		public String getImage() {
 			return image;
 		}
 
 		public int getX() {
 			return x;
 		}
-		
+
 		public int getY() {
 			return y;
 		}

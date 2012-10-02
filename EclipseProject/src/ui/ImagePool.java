@@ -22,7 +22,7 @@ public class ImagePool {
 	public Image getImage(String filename) throws IOException {
 		Image i = loadedImages.get(filename);
 		if (i == null) {
-			i = ImageIO.read(new File("art_assets/" + filename));
+			i = ImageIO.read(new File("art_assets" + File.separator + filename));
 			loadedImages.put(filename, i);
 		}
 		

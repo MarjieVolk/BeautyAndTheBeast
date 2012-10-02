@@ -1,24 +1,16 @@
 package state.interactionpoints;
 
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
 
-public abstract class InteractionPoint {
+import javax.swing.JButton;
 
-	private Shape interactionArea;
+public class InteractionPoint extends JButton {
 	
-	public boolean contains(Point p) {
-		return interactionArea.contains(p);
+	private static final long serialVersionUID = 5825333785492294351L;
+	
+	public InteractionPoint(Rectangle r) {
+		super();
+		super.setBounds(r);
 	}
 	
-	public Rectangle getBounds() {
-		return interactionArea.getBounds();
-	}
-	
-	public abstract void mousePressed(Point p);
-	
-	public abstract void mouseReleased(Point p);
-	
-	public abstract void mouseMoved(Point p);
 }

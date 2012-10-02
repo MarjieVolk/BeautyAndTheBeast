@@ -3,7 +3,10 @@ package state;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public abstract class Room implements Serializable {
+import state.enums.Time;
+import ui.Screen;
+
+public abstract class RoomData implements Serializable {
 
 	private static final long serialVersionUID = -7501007216422403699L;
 
@@ -16,4 +19,6 @@ public abstract class Room implements Serializable {
 	protected void putValue(String key, Serializable value) {
 		values.put(key, value);
 	}
+	
+	public abstract Screen getScreenForState(Time time);
 }
