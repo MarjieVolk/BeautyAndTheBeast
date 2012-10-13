@@ -1,0 +1,3 @@
+Sound: classes Music, Sound and Audio
+	Audio.newMusic(FileHandle) creates Music instance, which streams an audio file.
+	Audio.newSound creates Sound instance, which loads a short audio file to be played multiple times.
