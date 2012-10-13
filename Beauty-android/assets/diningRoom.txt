@@ -1,0 +1,172 @@
+diningRoom.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+center_back/west
+  rotate: false
+  xy: 2408, 2
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_windows/north
+  rotate: false
+  xy: 2408, 1206
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_back/east
+  rotate: false
+  xy: 2, 2
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_windows/north
+  rotate: false
+  xy: 804, 2410
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_windows/south
+  rotate: false
+  xy: 1606, 2410
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_windows/east
+  rotate: false
+  xy: 1606, 1206
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_back/east
+  rotate: false
+  xy: 2408, 604
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_back/south
+  rotate: false
+  xy: 2408, 1808
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_back/west
+  rotate: false
+  xy: 3210, 1808
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_back/north
+  rotate: false
+  xy: 804, 2
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_back/north
+  rotate: false
+  xy: 1606, 1808
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_back/north
+  rotate: false
+  xy: 3210, 604
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_windows/south
+  rotate: false
+  xy: 3210, 1206
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_back/east
+  rotate: false
+  xy: 804, 1808
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_windows/east
+  rotate: false
+  xy: 3210, 2
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_windows/south
+  rotate: false
+  xy: 804, 604
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_windows/north
+  rotate: false
+  xy: 2, 604
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_windows/east
+  rotate: false
+  xy: 2, 2410
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_windows/west
+  rotate: false
+  xy: 2, 1808
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_back/south
+  rotate: false
+  xy: 1606, 2
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+center_windows/west
+  rotate: false
+  xy: 1606, 604
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+right_windows/west
+  rotate: false
+  xy: 2408, 2410
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_back/south
+  rotate: false
+  xy: 2, 1206
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+left_back/west
+  rotate: false
+  xy: 804, 1206
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
