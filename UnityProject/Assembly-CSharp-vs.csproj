@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{3165A177-24F2-8F17-3577-E46A2F2EC27D}</ProjectGuid>
+	<ProjectGuid>{5B580621-09B4-68CB-B5F4-5B9DD210A60F}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Code\CameraController.cs" />
+     <Compile Include="Assets\Code\CameraMovement.cs" />
+     <Compile Include="Assets\Code\Locations\Action.cs" />
      <Compile Include="Assets\Code\Locations\Location.cs" />
      <Compile Include="Assets\Code\Locations\StandardLocation.cs" />
      <Compile Include="Assets\Code\Rooms\RoomData.cs" />

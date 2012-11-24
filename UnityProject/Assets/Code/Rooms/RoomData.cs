@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace AssemblyCSharp {
 
@@ -17,12 +18,23 @@ namespace AssemblyCSharp {
 			currentDir = startDir;
 		}
 		
-		public bool clicked(Vector3 mouseLoc) {			
+		//Returns whether or not the camera should update
+		public bool clicked(Vector3 mouseLoc) {
+			mouseLoc.y = Screen.height - mouseLoc.y;
+			HotPoint hp = currentLoc.getHotPointFor(currentDir, mouseLoc);
+			
+			if (hp != null) {
+				hp.doAction();
+				return false;
+			}
+			
 			Transition moveTo = currentLoc.getTransitionFor(currentDir, mouseLoc);
 			
 			if (moveTo != null) {
 				currentLoc = moveTo.moveTo;
-				currentDir = moveTo.turnTo;
+				if (moveTo.turnTo != Direction.NONE) {
+					currentDir = moveTo.turnTo;
+				}
 				return true;
 				
 			} else if (mouseLoc.x <= TURN_MARGIN) {
@@ -37,6 +49,14 @@ namespace AssemblyCSharp {
 			}
 			
 			return false;
+		}
+		
+		public List<Transition> getTransitions() {
+			return currentLoc.getAllTransitions(currentDir);
+		}
+		
+		public List<HotPoint> getHotPoints() {
+			return currentLoc.getAllHotPoints(currentDir);
 		}
 		
 		public Vector3 getPosition() {

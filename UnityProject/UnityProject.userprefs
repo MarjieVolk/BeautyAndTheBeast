@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\CameraMovement.cs">
+    <Files>
+      <File FileName="Assets\Code\Rooms\TestRoom.cs" Line="27" Column="31" />
+      <File FileName="Assets\Code\Locations\Action.cs" Line="49" Column="35" />
+      <File FileName="Assets\Code\CameraController.cs" Line="38" Column="38" />
+      <File FileName="Assets\Code\Locations\Location.cs" Line="134" Column="57" />
+      <File FileName="Assets\Code\CameraMovement.cs" Line="258" Column="25" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
