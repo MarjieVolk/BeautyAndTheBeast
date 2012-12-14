@@ -55,6 +55,7 @@
      <Compile Include="Assets\Code\Rooms\RoomData.cs" />
      <Compile Include="Assets\Code\Rooms\RoomToStringMapping.cs" />
      <Compile Include="Assets\Code\Rooms\TestRoom.cs" />
+     <None Include="Assets\Bab.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
