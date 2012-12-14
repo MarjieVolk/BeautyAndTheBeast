@@ -9,15 +9,19 @@ namespace AssemblyCSharp
 	
 	public class ToggleVarAction : Action {
 	
-		private Boolean isOn;
-		private Action ifOn;
-		private Action ifOff;
+		protected Boolean isOn;
+		protected Action ifOn;
+		protected Action ifOff;
+		private String key;
 		
 		//TODO: replace startsOn with reference to boolean var in game state
-		public ToggleVarAction(Boolean startsOn, Action ifOn, Action ifOff) {
-			isOn = startsOn;
+		public ToggleVarAction(String boolVarKey, bool defaultVal, Action ifOn, Action ifOff) {
+			isOn = GameState.getInstance().has(boolVarKey) ?
+				(Boolean) GameState.getInstance().get(boolVarKey) :
+				defaultVal;
 			this.ifOn = ifOn;
 			this.ifOff = ifOff;
+			key = boolVarKey;
 		}
 		
 		override public void doAction() {
@@ -27,6 +31,8 @@ namespace AssemblyCSharp
 				ifOff.doAction();
 			}
 			isOn = !isOn;
+			GameState.getInstance().put(key, isOn);
+			GameState.saveState();
 		}
 		
 	}
@@ -50,12 +56,29 @@ namespace AssemblyCSharp
 			}
 			a.Play(name);
 		}
+		
+		public void setToCurrentFrame() {
+			if (reverse) {
+				a[name].time = a[name].length;
+			} else {
+				a[name].time = 0;
+			}
+			a[name].speed = 0;
+			a.Play(name);
+		}
 	}
 	
 	public class ToggleAnimationAction : ToggleVarAction {
-		public ToggleAnimationAction(Boolean startsForward, Animation a, String name) :
-			base(startsForward, new AnimationAction(a, name, false),
-			new AnimationAction(a, name, true)) {}
+		public ToggleAnimationAction(String boolVarKey, bool defaultVal, Animation a, String name) :
+			base(boolVarKey, defaultVal, new AnimationAction(a, name, false),
+			new AnimationAction(a, name, true)) {
+			
+			if (isOn) {
+				((AnimationAction) ifOn).setToCurrentFrame();
+			} else {
+				((AnimationAction) ifOff).setToCurrentFrame();
+			}
+		}
 	}
 }
 

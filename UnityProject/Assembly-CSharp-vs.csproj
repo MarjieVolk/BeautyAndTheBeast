@@ -46,10 +46,14 @@
   <ItemGroup>
      <Compile Include="Assets\Code\CameraController.cs" />
      <Compile Include="Assets\Code\CameraMovement.cs" />
+     <Compile Include="Assets\Code\Core\GameState.cs" />
+     <Compile Include="Assets\Code\Core\MusicController.cs" />
+     <Compile Include="Assets\Code\Core\SerializableDictionary.cs" />
      <Compile Include="Assets\Code\Locations\Action.cs" />
      <Compile Include="Assets\Code\Locations\Location.cs" />
      <Compile Include="Assets\Code\Locations\StandardLocation.cs" />
      <Compile Include="Assets\Code\Rooms\RoomData.cs" />
+     <Compile Include="Assets\Code\Rooms\RoomToStringMapping.cs" />
      <Compile Include="Assets\Code\Rooms\TestRoom.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

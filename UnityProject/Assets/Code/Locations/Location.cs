@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace AssemblyCSharp {
 	
+	[Serializable]
 	public class Location {
 		
 		private Vector3 position;
@@ -118,17 +119,18 @@ namespace AssemblyCSharp {
 		}
 	}
 	
+	[Serializable]
 	public enum Direction {
 		NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, NONE
 	};
 	
 	public class Transition {
 		public readonly Rect screenArea;
-		public readonly Location moveTo;
+		public readonly String moveTo;
 		public readonly Direction turnTo;
 		
 		public Transition(float xPer, float yPer, float widthPer, float heightPer,
-			Location moveTo, Direction turnTo) {
+			String moveTo, Direction turnTo) {
 			
 			this.screenArea = new Rect(xPer * Screen.width, yPer * Screen.height,
 				widthPer * Screen.width, heightPer * Screen.height);
@@ -136,13 +138,13 @@ namespace AssemblyCSharp {
 			this.turnTo = turnTo;
 		}
 		
-		public Transition(Rect screenArea, Location moveTo, Direction turnTo) {
+		public Transition(Rect screenArea, String moveTo, Direction turnTo) {
 			this.screenArea = screenArea;
 			this.moveTo = moveTo;
 			this.turnTo = turnTo;
 		}
 		
-		public Transition(Rect screenArea, Location moveTo) {
+		public Transition(Rect screenArea, String moveTo) {
 			this.screenArea = screenArea;
 			this.moveTo = moveTo;
 			this.turnTo = Direction.NONE;

@@ -4,47 +4,51 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace AssemblyCSharp {
-
+	
+	[Serializable]
 	public class RoomData {
 		
 		private static readonly int TURN_MARGIN = Screen.width / 5;
 		
 		//private ArrayList<Location> locations;
-		Location currentLoc;
-		Direction currentDir;
+		private Location currentLoc;
+		private Direction currentDir = Direction.NONE;
+		private Dictionary<String, Location> locations;
 		
-		public RoomData(Location startLoc, Direction startDir) {
-			currentLoc = startLoc;
-			currentDir = startDir;
+		public RoomData(Dictionary<String, Location> locations) {
+			this.locations = locations;
 		}
 		
 		//Returns whether or not the camera should update
 		public bool clicked(Vector3 mouseLoc) {
 			mouseLoc.y = Screen.height - mouseLoc.y;
-			HotPoint hp = currentLoc.getHotPointFor(currentDir, mouseLoc);
+			HotPoint hp = getLocation().getHotPointFor(getDirection(), mouseLoc);
 			
 			if (hp != null) {
 				hp.doAction();
 				return false;
 			}
 			
-			Transition moveTo = currentLoc.getTransitionFor(currentDir, mouseLoc);
+			Transition moveTo = getLocation().getTransitionFor(getDirection(), mouseLoc);
 			
 			if (moveTo != null) {
-				currentLoc = moveTo.moveTo;
+				setLocation(moveTo.moveTo);
 				if (moveTo.turnTo != Direction.NONE) {
-					currentDir = moveTo.turnTo;
+					setDirection(moveTo.turnTo);
 				}
+				GameState.saveState();
 				return true;
 				
 			} else if (mouseLoc.x <= TURN_MARGIN) {
 				//Turn left
-				currentDir = currentLoc.getNextLeft(currentDir);
+				setDirection(getLocation().getNextLeft(getDirection()));
+				GameState.saveState();
 				return true;
 				
 			} else if (mouseLoc.x >= Screen.width - TURN_MARGIN) {
 				//Turn right
-				currentDir = currentLoc.getNextRight(currentDir);
+				setDirection(getLocation().getNextRight(getDirection()));
+				GameState.saveState();
 				return true;
 			}
 			
@@ -52,19 +56,47 @@ namespace AssemblyCSharp {
 		}
 		
 		public List<Transition> getTransitions() {
-			return currentLoc.getAllTransitions(currentDir);
+			return getLocation().getAllTransitions(getDirection());
 		}
 		
 		public List<HotPoint> getHotPoints() {
-			return currentLoc.getAllHotPoints(currentDir);
+			return getLocation().getAllHotPoints(getDirection());
 		}
 		
 		public Vector3 getPosition() {
-			return currentLoc.getPosition();
+			return getLocation().getPosition();
 		}
 		
 		public Quaternion getRotation() {
-			return currentLoc.getRotation(currentDir);
+			return getLocation().getRotation(getDirection());
+		}
+		
+		protected Location getLocation(String key) {
+			return locations[key];
+		}
+		
+		private void setLocation(String loc) {
+			currentLoc = locations[loc];
+			GameState.getInstance().setLocation(loc);
+		}
+		
+		private void setDirection(Direction d) {
+			currentDir = d;
+			GameState.getInstance().setDirection(d);
+		}
+		
+		private Location getLocation() {
+			if (currentLoc == null) {
+				currentLoc = locations[GameState.getInstance().getLocation()];
+			}
+			return currentLoc;
+		}
+		
+		private Direction getDirection() {
+			if (currentDir == Direction.NONE) {
+				currentDir = GameState.getInstance().getDirection();
+			}
+			return currentDir;
 		}
 	}
 	

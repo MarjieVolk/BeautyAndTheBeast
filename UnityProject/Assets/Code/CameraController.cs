@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 	//Debug stuff
 	private static readonly Boolean debug = false;
 	private static readonly Rect screenRect = new Rect(10, 10, 200, 100);
-	private string debugText = "" + Screen.width + ", " + Screen.height;
+	public static string debugText = "...";
 	
 	//Data
 	private RoomData room;
@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		room = new TestRoom();
+		room = GameState.getInstance().getRoom();
 		transform.position = room.getPosition();
 		transform.rotation = room.getRotation();
 	}
@@ -34,9 +34,9 @@ public class CameraController : MonoBehaviour {
 		if ((!isMoving || movementControl.percentDone(Time.time) > MOVE_THRESHOLD)
 			&& Input.GetMouseButtonDown(0) && room.clicked(Input.mousePosition)) {
 			
-			isMoving = true;
-			movementControl = new SineAccelerationMovement(transform.position, room.getPosition(),
+			movementControl = new SineMovement(transform.position, room.getPosition(),
 				transform.rotation, room.getRotation());
+			isMoving = true;
 		}
 		
 		if (isMoving) {
@@ -50,18 +50,19 @@ public class CameraController : MonoBehaviour {
 	
 	void OnGUI() {
 		if (GUI.Button(new Rect(Screen.width - 35, 10, 25, 20), "X")) {
-			debugText = "exiting...";
 			Application.Quit();
 		}
 		
 		if (debug) {
     		GUI.Label(screenRect, debugText);
-			foreach (Transition t in room.getTransitions()) {
-				GUI.Box(t.screenArea, "Move to " + t.moveTo);
-			}
-			
-			foreach (HotPoint hp in room.getHotPoints()) {
-				GUI.Box(hp.screenArea, "HotPoint");
+			if (room != null) {
+				foreach (Transition t in room.getTransitions()) {
+					GUI.Box(t.screenArea, "Move to " + t.moveTo);
+				}
+				
+				foreach (HotPoint hp in room.getHotPoints()) {
+					GUI.Box(hp.screenArea, "HotPoint");
+				}
 			}
 		}
 	}
