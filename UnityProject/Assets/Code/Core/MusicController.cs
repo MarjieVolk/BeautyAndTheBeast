@@ -35,7 +35,7 @@ public class MusicController : MonoBehaviour {
 			return true;
 		
 		float diff = Time.time - timeOfLastSong;
-		double probability = (diff - MIN_WAIT_TIME) / (MAX_WAIT_TIME - MIN_WAIT_TIME);
+		double probability = 0.05;
 		return r.NextDouble() < probability;
 	}
 }
