@@ -1,11 +1,22 @@
-UnityProject/UnityProject-csharp.sln
-UnityProject/UnityProject.sln
-UnityProject/UnityProject.userprefs
+# Unity
+/UnityProject/UnityProject-csharp.sln
+/UnityProject/UnityProject.sln
+/UnityProject/UnityProject.userprefs
+/UnityProject/UnityProject.sln
+/UnityProject/UnityProject-csharp.sln
+previews
+ScriptAssemblies
+assetDatabase3
+AssetServerCacheV3
+guidmapper
+ScriptMapper
 
-UnityProject/Temp/
-UnityProject/Library/
-UnityProject/Assets/Bab.xml
-UnityProject/obj/
+/UnityProject/Temp/*
+/UnityProject/Library/*
+/UnityProject/Library/cache/*
+/UnityProject/Library/metadata/*
+/UnityProject/Assets/Bab.xml
+/UnityProject/obj/*
 *.svd
  
 !UnityProject/Library/*.asset
@@ -19,20 +30,20 @@ UnityProject/obj/
 !UnityProject/Library/unity default resources
 !UnityProject/Library/unity editor resources
  
-UnityProject/UnityProject.userprefs
-UnityProject/Assembly-CSharp.csproj
-UnityProject/Assembly-CSharp.pidb
-UnityProject/Assembly-CSharp-Editor.csproj
-UnityProject/Assembly-CSharp-Editor.pidb
-UnityProject/Assembly-CSharp-Editor-vs.csproj
-UnityProject/Assembly-CSharp-firstpass.csproj
-UnityProject/Assembly-CSharp-firstpass.pidb
-UnityProject/Assembly-CSharp-firstpass-vs.csproj
-UnityProject/Assembly-CSharp-vs.csproj
-UnityProject/Assembly-UnityScript-firstpass.pidb
-UnityProject/Assembly-UnityScript-firstpass.unityproj
-UnityProject/Assembly-UnityScript-firstpass-vs.unityproj
-UnityProject/UnityProject.suo
+/UnityProject/UnityProject.userprefs
+/UnityProject/Assembly-CSharp.csproj
+/UnityProject/Assembly-CSharp.pidb
+/UnityProject/Assembly-CSharp-Editor.csproj
+/UnityProject/Assembly-CSharp-Editor.pidb
+/UnityProject/Assembly-CSharp-Editor-vs.csproj
+/UnityProject/Assembly-CSharp-firstpass.csproj
+/UnityProject/Assembly-CSharp-firstpass.pidb
+/UnityProject/Assembly-CSharp-firstpass-vs.csproj
+/UnityProject/Assembly-CSharp-vs.csproj
+/UnityProject/Assembly-UnityScript-firstpass.pidb
+/UnityProject/Assembly-UnityScript-firstpass.unityproj
+/UnityProject/Assembly-UnityScript-firstpass-vs.unityproj
+/UnityProject/UnityProject.suo
 
 #################
 ## Eclipse
@@ -197,8 +208,3 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
-metadata
-cache
-/UnityProject/UnityProject-csharp.sln
-/UnityProject/UnityProject.sln
-/UnityProject/UnityProject.userprefs
