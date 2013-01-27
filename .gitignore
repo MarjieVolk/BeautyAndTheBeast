@@ -208,3 +208,9 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+/UnityProject/Assembly-UnityScript.unityproj
+/UnityProject/Assembly-UnityScript-vs.unityproj
+/UnityProject/Assembly-CSharp.csproj
+/UnityProject/Assembly-CSharp.pidb
+/UnityProject/Assembly-CSharp-vs.csproj
+/UnityProject/Assembly-UnityScript.pidb
