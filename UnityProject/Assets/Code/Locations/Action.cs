@@ -32,7 +32,7 @@ namespace AssemblyCSharp
 			}
 			isOn = !isOn;
 			GameState.getInstance().put(key, isOn);
-			GameState.saveState();
+			GameState.saveCurrentGame();
 		}
 		
 	}

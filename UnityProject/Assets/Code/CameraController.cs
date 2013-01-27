@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour {
 	//Data
 	private RoomData room;
 	private bool isMoving = false;
-	private CameraMovement movementControl;
+	private CameraMovement movementControl = null;
 	
 	// Use this for initialization
 	void Start () {
@@ -27,10 +27,6 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey("escape")) {
-			Application.Quit();
-		}
-		
 		if ((!isMoving || movementControl.percentDone(Time.time) > MOVE_THRESHOLD)
 			&& Input.GetMouseButtonDown(0) && room.clicked(Input.mousePosition)) {
 			
@@ -49,10 +45,6 @@ public class CameraController : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-		if (GUI.Button(new Rect(Screen.width - 35, 10, 25, 20), "X")) {
-			Application.Quit();
-		}
-		
 		if (debug) {
     		GUI.Label(screenRect, debugText);
 			if (room != null) {

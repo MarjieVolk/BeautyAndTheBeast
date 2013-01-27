@@ -16,8 +16,12 @@ namespace AssemblyCSharp
 		private static readonly String locKey = "CORE.location";
 		private static readonly String dirKey = "CORE.direction";
 		
-		private static readonly String filePath = Application.dataPath + "\\Bab.xml";
-		private static GameState instance = loadState();
+		private static readonly String saveDir = Application.dataPath + "\\saves";
+		private static readonly String lastPlayedSaveFile = saveDir + "\\lastPlayed.txt";
+		private static readonly String extension = ".xml";
+		
+		private static String filePath;
+		private static GameState instance;
 		#endregion
 		
 		#region constructors and fields
@@ -91,11 +95,16 @@ namespace AssemblyCSharp
 		#endregion
 		
 		#region static methods
+		//static constructor
+		static GameState() {
+			System.IO.Directory.CreateDirectory(saveDir);
+		}
+		
 		public static GameState getInstance() {
 			return instance;
 		}
 		
-		public static void saveState() {
+		public static void saveCurrentGame() {
       		FileInfo t = new FileInfo(filePath); 
       		if(t.Exists) {
          		t.Delete();
@@ -105,8 +114,21 @@ namespace AssemblyCSharp
       		writer.Close();
 		}
 		
-		private static GameState loadState() {
-			GameState state = null;
+		public static void startNewGame(String gameName) {
+			filePath = getFilePathForName(gameName);
+			setLastPlayedGame(gameName);
+			instance = new GameState();
+		}
+		
+		public static void loadLastPlayedGame() {
+			loadGame(getLastPlayedGame());
+		}
+		
+		public static void loadGame(String gameName) {
+			setLastPlayedGame(gameName);
+			
+			instance = null;
+			filePath = getFilePathForName(gameName);
 			if (new FileInfo(filePath).Exists) {
 				StreamReader r = File.OpenText(filePath); 
 	      		String info = r.ReadToEnd(); 
@@ -114,18 +136,58 @@ namespace AssemblyCSharp
 				SerializableDictionary<String, object> loadedData =
 					(SerializableDictionary<String, object>) DeserializeObject(info);
 				if (loadedData != null) {
-					state = new GameState(loadedData);
+					instance = new GameState(loadedData);
 				}
 			}
 			
-			if (state == null) {
-				state = new GameState();
+			if (instance == null) {
+				instance = new GameState();
 			}
-			return state;
+		}
+		
+		public static Boolean hasLastPlayedFile() {
+			return new FileInfo(lastPlayedSaveFile).Exists;
+		}
+		
+		public static string[] getSavedGames() {
+			string[] fullNames = Directory.GetFiles(saveDir, "*" + extension);
+			string[] simpleNames = new string[fullNames.Length];
+			for (int i = 0; i < fullNames.Length; i++) {
+				string nameWithExtension = new FileInfo(fullNames[i]).Name;
+				simpleNames[i] = Path.GetFileNameWithoutExtension(nameWithExtension);
+			}
+			return simpleNames;
+		}
+		
+		private static String getFilePathForName(String gameName) {
+			return saveDir + "\\" + gameName + extension;
+		}
+		
+		private static String getLastPlayedGame() {
+			FileInfo file = new FileInfo(lastPlayedSaveFile);
+			if (!file.Exists) {
+				throw new ArgumentException("There is no most recently played save");
+			}
+			
+			StreamReader r = File.OpenText(lastPlayedSaveFile);
+			String s = r.ReadToEnd();
+			r.Close();
+			
+			return s;
+		}
+		
+		private static void setLastPlayedGame(String name) {
+			FileInfo t = new FileInfo(lastPlayedSaveFile); 
+      		if(t.Exists) {
+         		t.Delete();
+      		}
+			StreamWriter writer = t.CreateText(); 
+      		writer.Write(name); 
+      		writer.Close();
 		}
 		
 		// Convert object to serialized xml string
-   		private static string SerializeObject(object pObject) { 
+   		private static String SerializeObject(object pObject) { 
       		string XmlizedString = null; 
       		MemoryStream memoryStream = new MemoryStream(); 
      		XmlSerializer xs = new XmlSerializer(typeof(SerializableDictionary<String, object>)); 

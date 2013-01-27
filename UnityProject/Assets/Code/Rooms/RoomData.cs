@@ -36,19 +36,19 @@ namespace AssemblyCSharp {
 				if (moveTo.turnTo != Direction.NONE) {
 					setDirection(moveTo.turnTo);
 				}
-				GameState.saveState();
+				GameState.saveCurrentGame();
 				return true;
 				
 			} else if (mouseLoc.x <= TURN_MARGIN) {
 				//Turn left
 				setDirection(getLocation().getNextLeft(getDirection()));
-				GameState.saveState();
+				GameState.saveCurrentGame();
 				return true;
 				
 			} else if (mouseLoc.x >= Screen.width - TURN_MARGIN) {
 				//Turn right
 				setDirection(getLocation().getNextRight(getDirection()));
-				GameState.saveState();
+				GameState.saveCurrentGame();
 				return true;
 			}
 			
