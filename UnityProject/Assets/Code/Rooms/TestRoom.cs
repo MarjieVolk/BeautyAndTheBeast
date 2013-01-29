@@ -9,10 +9,10 @@ namespace AssemblyCSharp {
 		private static readonly int headY = 8;
 		
 		public TestRoom() : base (buildLocations()) {
-			var anim = GameObject.Find("Lever").animation;
-			var action = new ToggleAnimationAction("Test.Lever", false, anim, "LeverPull");
-			var hp = new HotPoint(0.16f, 0.43f, 0.16f, 0.518f, new Action[] { action });
-			getLocation("bottomCenter").addHotPoint(hp, Direction.EAST);
+//			var anim = GameObject.Find("Lever").animation;
+//			var action = new ToggleAnimationAction("Test.Lever", false, anim, "LeverPull");
+//			var hp = new HotPoint(0.16f, 0.43f, 0.16f, 0.518f, new Action[] { action });
+//			getLocation("bottomCenter").addHotPoint(hp, Direction.EAST);
 		}
 		
 		private static Dictionary<String, Location> buildLocations() {

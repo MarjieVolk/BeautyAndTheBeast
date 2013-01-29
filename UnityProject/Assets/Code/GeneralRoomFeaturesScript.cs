@@ -1,20 +1,29 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using AssemblyCSharp;
 
-public class EscapeMenuScript : MonoBehaviour {
+public class GeneralRoomFeaturesScript : MonoBehaviour {
+	
+	private static readonly float saveWaitTime = 5; //save every x seconds
 	
 	private Boolean showEscapeMenu = false;
+	private float prevSaveTime;
 	
 	// Use this for initialization
 	void Start () {
-	
+		prevSaveTime = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey("escape")) {
 			showEscapeMenu = true;
+		}
+		
+		if (Time.time >= prevSaveTime + saveWaitTime) {
+			GameState.saveCurrentGame();
+			prevSaveTime = Time.time;
 		}
 	}
 	

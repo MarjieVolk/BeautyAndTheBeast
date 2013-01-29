@@ -30,7 +30,6 @@ UnityProject/Temp/*
 UnityProject/Library/*
 UnityProject/Library/cache/*
 UnityProject/Library/metadata/*
-UnityProject/Assets/Bab.xml
 UnityProject/obj/*
 *.svd
  
