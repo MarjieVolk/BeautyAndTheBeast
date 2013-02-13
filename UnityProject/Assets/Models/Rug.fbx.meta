@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 817dcebb24518734c89ee93a2fbdcbfc
+guid: 3b625d5f378dc6c46b66b99421722563
 ModelImporter:
   fileIDToRecycleName:
     4300000: Rug
   serializedVersion: 10
   materials:
     importMaterials: 1
-    materialName: 1
+    materialName: 2
     materialSearch: 1
   animations:
     generateAnimations: 3
