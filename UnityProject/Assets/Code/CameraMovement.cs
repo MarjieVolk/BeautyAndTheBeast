@@ -42,7 +42,8 @@ namespace AssemblyCSharp
 		}
 		
 		override public Quaternion getRotation(float time) {
-			return Quaternion.Lerp(startRot, endRot, percentDone(time));
+			float per = percentDone(time);			
+			return Quaternion.Lerp(startRot, endRot, per);
 		}
 		
 		override public  Boolean isDone(float time) {

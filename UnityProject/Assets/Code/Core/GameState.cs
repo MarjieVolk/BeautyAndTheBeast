@@ -20,8 +20,8 @@ namespace AssemblyCSharp
 		private static readonly String lastPlayedSaveFile = saveDir + "\\lastPlayed.txt";
 		private static readonly String extension = ".xml";
 		
-		private static String filePath;
-		private static GameState instance;
+		private static String filePath = getFilePathForName("default");
+		private static GameState instance = new GameState();
 		#endregion
 		
 		#region constructors and fields
@@ -202,7 +202,7 @@ namespace AssemblyCSharp
 		private static object DeserializeObject(string pXmlizedString) { 
 			XmlSerializer xs = new XmlSerializer(typeof(SerializableDictionary<String, object>)); 
 			MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(pXmlizedString)); 
-			XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
+			//XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
 			return xs.Deserialize(memoryStream); 
 		}
 		

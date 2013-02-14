@@ -5,6 +5,13 @@ using AssemblyCSharp;
 
 public class GeneralRoomFeaturesScript : MonoBehaviour {
 	
+	/*
+	 * Handled in this class:
+	 * 
+	 * - Escape menu
+	 * - Autosave
+	 */
+	
 	private static readonly float saveWaitTime = 5; //save every x seconds
 	
 	private Boolean showEscapeMenu = false;

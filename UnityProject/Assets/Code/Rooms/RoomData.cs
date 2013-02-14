@@ -14,9 +14,11 @@ namespace AssemblyCSharp {
 		private Location currentLoc;
 		private Direction currentDir = Direction.NONE;
 		private Dictionary<String, Location> locations;
+		private String id;
 		
-		public RoomData(Dictionary<String, Location> locations) {
+		public RoomData(String id, Dictionary<String, Location> locations) {
 			this.locations = locations;
+			this.id = id;
 		}
 		
 		//Returns whether or not the camera should update
@@ -50,6 +52,10 @@ namespace AssemblyCSharp {
 			}
 			
 			return false;
+		}
+		
+		public String getId() {
+			return id;
 		}
 		
 		public List<Transition> getTransitions() {

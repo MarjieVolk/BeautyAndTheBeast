@@ -8,7 +8,7 @@ namespace AssemblyCSharp {
 	public class TestRoom : RoomData {
 		private static readonly int headY = 8;
 		
-		public TestRoom() : base (buildLocations()) {
+		public TestRoom() : base ("test", buildLocations()) {
 //			var anim = GameObject.Find("Lever").animation;
 //			var action = new ToggleAnimationAction("Test.Lever", false, anim, "LeverPull");
 //			var hp = new HotPoint(0.16f, 0.43f, 0.16f, 0.518f, new Action[] { action });
@@ -22,29 +22,29 @@ namespace AssemblyCSharp {
 			Location bottomRight = new StandardLocation(new Vector3(-24, headY, -19));
 			Location bottomCenter = new StandardLocation(new Vector3(-24, headY, 3));
 			Location bottomLeft = new StandardLocation(new Vector3(-24, headY, 24));
-			Location topCenter = new StandardLocation(new Vector3(3, headY, 3));
+			Location topCenter = LocationFactory.getLocation(new Vector3(3, headY, 3), 0, 20, 0, 0);
 			Location topLeft = new StandardLocation(new Vector3(3, headY, 24));
 			Location topRight = new StandardLocation(new Vector3(3, headY, -19));
 			
 			bottomRight.addTransition(new Transition(button, "bottomCenter"), Direction.NORTH);
-			bottomRight.addTransition(new Transition(button, "topRight"), Direction.EAST);
+			bottomRight.addTransition(new Transition(button, "topRight", Direction.NORTH), Direction.EAST);
 			
-			bottomCenter.addTransition(new Transition(button, "bottomLeft"), Direction.NORTH);
+			bottomCenter.addTransition(new Transition(button, "bottomLeft", Direction.EAST), Direction.NORTH);
 			bottomCenter.addTransition(new Transition(button, "topCenter"), Direction.EAST);
-			bottomCenter.addTransition(new Transition(button, "bottomRight"), Direction.SOUTH);
+			bottomCenter.addTransition(new Transition(button, "bottomRight", Direction.EAST), Direction.SOUTH);
 			
-			bottomLeft.addTransition(new Transition(button, "topLeft"), Direction.EAST);
+			bottomLeft.addTransition(new Transition(button, "topLeft", Direction.SOUTH), Direction.EAST);
 			bottomLeft.addTransition(new Transition(button, "bottomCenter"), Direction.SOUTH);
 			
-			topLeft.addTransition(new Transition(button, "bottomLeft"), Direction.WEST);
+			topLeft.addTransition(new Transition(button, "bottomLeft", Direction.SOUTH), Direction.WEST);
 			topLeft.addTransition(new Transition(button, "topCenter"), Direction.SOUTH);
 			
-			topCenter.addTransition(new Transition(button, "topLeft"), Direction.NORTH);
-			topCenter.addTransition(new Transition(button, "topRight"), Direction.SOUTH);
+			topCenter.addTransition(new Transition(button, "topLeft", Direction.WEST), Direction.NORTH);
+			topCenter.addTransition(new Transition(button, "topRight", Direction.WEST), Direction.SOUTH);
 			topCenter.addTransition(new Transition(button, "bottomCenter"), Direction.WEST);
 			
 			topRight.addTransition(new Transition(button, "topCenter"), Direction.NORTH);
-			topRight.addTransition(new Transition(button, "bottomRight"), Direction.WEST);
+			topRight.addTransition(new Transition(button, "bottomRight", Direction.NORTH), Direction.WEST);
 			
 			Dictionary<String, Location> locations = new Dictionary<String, Location>();
 			locations.Add("bottomRight", bottomRight);
