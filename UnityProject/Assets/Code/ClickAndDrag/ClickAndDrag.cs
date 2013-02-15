@@ -20,11 +20,18 @@ public abstract class ClickAndDrag : MonoBehaviour {
 	protected abstract int initSnap();
 	protected abstract void doDrag(Vector3 dragStartMousePosition, Vector3 currentMousePosition);
 	protected abstract bool doSnap(int snapToIndex);
+	protected abstract int getDefaultVal();
 	
 	void Start () {
 		if (gameStateKey != null && GameState.getInstance().has(gameStateKey)) {
 			snapToIndex = (int) GameState.getInstance().get(gameStateKey);
-			setVisualState(snapToIndex);
+		} else {
+			snapToIndex = getDefaultVal();
+		}
+		
+		setVisualState(snapToIndex);
+		if (gameStateKey != null && GameState.getInstance().has(gameStateKey)) {
+			GameState.getInstance().put(gameStateKey, snapToIndex);
 		}
 	}
 	

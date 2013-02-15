@@ -21,9 +21,11 @@ public class ClickAndDragTranslate : ClickAndDrag
 	public float minZ = 0;
 	public float maxZ = 0;
 	
-	public float snapSpeed = 10;
-	
 	private Vector3 p;
+	private Vector3 v;
+	
+	private float a = 1.0f;
+	private float speed = 0;
 	
 	protected override void setVisualState(int snapToIndex) {
 		Vector3 pos = snapTo[snapToIndex];
@@ -32,6 +34,7 @@ public class ClickAndDragTranslate : ClickAndDrag
 	
 	protected override void initDrag(Vector3 dragStartMousePosition) {
 		p = transform.localPosition;
+		v = new Vector3(0, 0, 0);
 	}
 	
 	protected override int initSnap() {
@@ -46,6 +49,8 @@ public class ClickAndDragTranslate : ClickAndDrag
 			}
 		}
 		
+		speed = v.magnitude;
+		
 		return index;
 	}
 	
@@ -57,12 +62,19 @@ public class ClickAndDragTranslate : ClickAndDrag
 		float dY = (dYPerDMouseX * dMouseX) + (dYPerDMouseY * dMouseY);
 		float dZ = (dZPerDMouseX * dMouseX) + (dZPerDMouseY * dMouseY);
 		
-		setPosition(new Vector3(p.x + dX, p.y + dY, p.z + dZ));
+		Vector3 oldP = transform.localPosition;
+		Vector3 newP = new Vector3(p.x + dX, p.y + dY, p.z + dZ);
+		setPosition(newP);
+		
+		//Update velocity
+		v = (newP - oldP) / Time.deltaTime;
 	}
 	
 	protected override bool doSnap(int snapToIndex) {
 		Vector3 direction = snapTo[snapToIndex] - transform.localPosition;
-		Vector3 newPosition = (direction.normalized * snapSpeed * Time.deltaTime);
+		Vector3 newPosition = (direction.normalized * speed * Time.deltaTime);
+		
+		speed += a * Time.deltaTime;
 		
 		if (newPosition.magnitude > direction.magnitude) {
 			setPosition(snapTo[snapToIndex]);
@@ -79,6 +91,10 @@ public class ClickAndDragTranslate : ClickAndDrag
 		newPosition.z = Math.Min(maxZ, Math.Max(newPosition.z, minZ));
 		
 		transform.localPosition = newPosition;
+	}
+	
+	protected override int getDefaultVal() {
+		return 0;
 	}
 }
 
