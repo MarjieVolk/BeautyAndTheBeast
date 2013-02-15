@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour {
 	private static readonly float MOVE_THRESHOLD = 0.4f;
 	
 	//Debug stuff
-	private static readonly Boolean debug = true;
+	private static readonly Boolean debug = false;
 	private static readonly Rect screenRect = new Rect(10, 10, 200, 100);
 	public static string debugText = "...";
 	
