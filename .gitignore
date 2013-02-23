@@ -42,3 +42,7 @@ UnityProject/obj/*
 !UnityProject/Library/BuildPlayer.prefs
 !UnityProject/Library/unity default resources
 !UnityProject/Library/unity editor resources
+/UnityProject/Library/InspectorExpandedItems.asset
+/UnityProject/ProjectSettings/EditorBuildSettings.asset
+/UnityProject/Assets/saves
+/UnityProject/Assets/saves.meta
