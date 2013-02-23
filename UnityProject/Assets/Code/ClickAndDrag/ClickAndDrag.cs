@@ -4,22 +4,18 @@ using System;
 using AssemblyCSharp;
 
 public abstract class ClickAndDrag : MonoBehaviour {
-
-	private static readonly int NONE = 0;
-	private static readonly int DRAG = 1;
-	private static readonly int SNAP = 2;
 	
 	public String gameStateKey;
 	
-	private int state = NONE;
+	private DragState state = DragState.NONE;
 	private Vector3 dragStartMousePos;
 	private int snapToIndex;
 	
 	protected abstract void setVisualState(int snapToIndex);
 	protected abstract void initDrag(Vector3 dragStartMousePosition);
 	protected abstract int initSnap();
-	protected abstract void doDrag(Vector3 dragStartMousePosition, Vector3 currentMousePosition);
-	protected abstract bool doSnap(int snapToIndex);
+	protected abstract void doDrag(DragEvent toPopulate, Vector3 dragStartMousePosition, Vector3 currentMousePosition);
+	protected abstract bool doSnap(DragEvent toPopulate, int snapToIndex);
 	protected abstract int getDefaultVal();
 	
 	void Start () {
@@ -36,33 +32,60 @@ public abstract class ClickAndDrag : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (!Input.GetMouseButton(0) && state == DRAG) {
+		if (!Input.GetMouseButton(0) && state == DragState.DRAG) {
 			endDrag();
 		}
 		
-		if (state == DRAG) {
-			doDrag(dragStartMousePos, Input.mousePosition);
+		if (state == DragState.DRAG) {
+			DragEvent e = new DragEvent(DragState.DRAG);
+			doDrag(e, dragStartMousePos, Input.mousePosition);
+			foreach (DragModifier m in modifiers())
+					m.handleDragEvent(e);	
 			
-		} else if (state == SNAP && doSnap(snapToIndex)) {
-			state = NONE;
+		} else if (state == DragState.SNAP) {
+			DragEvent e = new DragEvent(DragState.SNAP);
+			bool isSnapDone = doSnap(e, snapToIndex);
+			foreach (DragModifier m in modifiers())
+					m.handleDragEvent(e);	
+			if (isSnapDone) {
+				state = DragState.NONE;
+				foreach (DragModifier m in modifiers())
+					m.endSnap();	
+			}
 		}
 	}
 	
 	void OnMouseOver() {
 		// If mouse is pressed
-		if (state != DRAG && Input.GetMouseButtonDown(0)) {
-			state = DRAG;
+		if (state != DragState.DRAG && Input.GetMouseButtonDown(0)) {
+			state = DragState.DRAG;
 			dragStartMousePos = Input.mousePosition;
 			initDrag(dragStartMousePos);
+			
+			foreach (DragModifier m in modifiers())
+				m.startDrag();
 		}
 	}
 	
 	private void endDrag() {
 		snapToIndex = initSnap();
-		state = SNAP;
+		state = DragState.SNAP;
+		foreach (DragModifier m in modifiers()) {
+			m.endDrag();
+			m.startSnap();
+		}
 		
 		if (gameStateKey != null) {
 			GameState.getInstance().put(gameStateKey, snapToIndex);
 		}
+	}
+	
+	private DragModifier[] modifiers() {
+		Component[] comps = this.GetComponents(typeof(DragModifier));
+		DragModifier[] dms = new DragModifier[comps.Length];
+		for (int i = 0; i < comps.Length; i++) {
+			dms[i] = (DragModifier) comps[i];
+		}
+		return dms;
 	}
 }

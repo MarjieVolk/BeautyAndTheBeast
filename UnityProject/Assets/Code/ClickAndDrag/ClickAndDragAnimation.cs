@@ -49,7 +49,7 @@ public class ClickAndDragAnimation : ClickAndDrag
 		return index;
 	}
 		
-	protected override void doDrag(Vector3 dragStartMousePosition, Vector3 currentMousePosition) {
+	protected override void doDrag(DragEvent toPopulate, Vector3 dragStartMousePosition, Vector3 currentMousePosition) {
 		float dY = (currentMousePosition - dragStartMousePosition).y / ((float) Screen.height);
 		float dTime = dAnimationTimePerDMouseY * dY * animation[animName].length;
 		animation[animName].time = Mathf.Clamp(dragStartAnimPos + dTime, 0.0f, animation[animName].length);
@@ -58,7 +58,7 @@ public class ClickAndDragAnimation : ClickAndDrag
 		animation.Play(animName);
 	}
 		
-	protected override bool doSnap(int snapToIndex) {
+	protected override bool doSnap(DragEvent toPopulate, int snapToIndex) {
 		float t = animation[animName].time;
 			
 		bool done = (animation[animName].speed > 0 && (t >= snapTo[snapToIndex] || t == 0))

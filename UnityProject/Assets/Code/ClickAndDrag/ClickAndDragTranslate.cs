@@ -5,6 +5,9 @@ using AssemblyCSharp;
 
 public class ClickAndDragTranslate : ClickAndDrag
 {
+	public static readonly String PARAM_VELOCITY = "velocity";
+	public static readonly String PARAM_DRAG_STRENGTH = "dragStrength";
+	
 	public Vector3[] snapTo;
 	
 	public float dXPerDMouseX = 0;
@@ -54,7 +57,7 @@ public class ClickAndDragTranslate : ClickAndDrag
 		return index;
 	}
 	
-	protected override void doDrag(Vector3 dragStartMousePosition, Vector3 currentMousePosition) {
+	protected override void doDrag(DragEvent toPopulate, Vector3 dragStartMousePosition, Vector3 currentMousePosition) {
 		float dMouseX = currentMousePosition.x - dragStartMousePosition.x;
 		float dMouseY = currentMousePosition.y - dragStartMousePosition.y;
 		
@@ -63,34 +66,40 @@ public class ClickAndDragTranslate : ClickAndDrag
 		float dZ = (dZPerDMouseX * dMouseX) + (dZPerDMouseY * dMouseY);
 		
 		Vector3 oldP = transform.localPosition;
-		Vector3 newP = new Vector3(p.x + dX, p.y + dY, p.z + dZ);
-		setPosition(newP);
+		Vector3 desiredNewP = new Vector3(p.x + dX, p.y + dY, p.z + dZ);
+		setPosition(desiredNewP);
+		Vector3 newP = transform.localPosition;
 		
 		//Update velocity
 		v = (newP - oldP) / Time.deltaTime;
+		
+		//Populate event
+		toPopulate.putParam(PARAM_VELOCITY, v);
+		toPopulate.putParam(PARAM_DRAG_STRENGTH, (desiredNewP - oldP) / Time.deltaTime);
 	}
 	
-	protected override bool doSnap(int snapToIndex) {
+	protected override bool doSnap(DragEvent toPopulate, int snapToIndex) {
 		Vector3 direction = snapTo[snapToIndex] - transform.localPosition;
-		Vector3 newPosition = (direction.normalized * speed * Time.deltaTime);
-		
+		v = direction.normalized * speed;
 		speed += a * Time.deltaTime;
 		
-		if (newPosition.magnitude > direction.magnitude) {
+		//Populate event
+		toPopulate.putParam(PARAM_VELOCITY, v);
+		
+		if (v.magnitude * Time.deltaTime > direction.magnitude) {
 			setPosition(snapTo[snapToIndex]);
 			return true;
 		} else {
-			setPosition(newPosition + transform.localPosition);
+			setPosition((v * Time.deltaTime) + transform.localPosition);
 			return false;
 		}
 	}
 	
 	private void setPosition(Vector3 newPosition) {
-		newPosition.x = Math.Min(maxX, Math.Max(newPosition.x, minX));
-		newPosition.y = Math.Min(maxY, Math.Max(newPosition.y, minY));
-		newPosition.z = Math.Min(maxZ, Math.Max(newPosition.z, minZ));
+		Vector3 p = new Vector3(Mathf.Clamp(newPosition.x, minX, maxX),
+			Mathf.Clamp(newPosition.y, minY, maxY), Mathf.Clamp(newPosition.z, minZ, maxZ));
 		
-		transform.localPosition = newPosition;
+		transform.localPosition = p;
 	}
 	
 	protected override int getDefaultVal() {

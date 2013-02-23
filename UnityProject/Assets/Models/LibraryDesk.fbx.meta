@@ -37,7 +37,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: .00999999978
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
@@ -89,6 +89,9 @@ ModelImporter:
       data:
         first: 33
         second: ae5a3200
+      data:
+        first: 64
+        second: 14a86100
     Cap_2:
       data:
         first: 1
@@ -102,6 +105,9 @@ ModelImporter:
       data:
         first: 33
         second: ac5a3200
+      data:
+        first: 64
+        second: 16a86100
     Center_Drawer:
       data:
         first: 1
@@ -122,6 +128,9 @@ ModelImporter:
       data:
         first: 33
         second: a45a3200
+      data:
+        first: 64
+        second: 0aa86100
     Cylinder:
       data:
         first: 1
@@ -135,6 +144,9 @@ ModelImporter:
       data:
         first: 33
         second: aa5a3200
+      data:
+        first: 64
+        second: 10a86100
     Desk:
       data:
         first: 1
@@ -155,6 +167,9 @@ ModelImporter:
       data:
         first: 33
         second: b25a3200
+      data:
+        first: 64
+        second: 00a86100
     Drawer:
       data:
         first: 1
@@ -175,6 +190,9 @@ ModelImporter:
       data:
         first: 33
         second: a25a3200
+      data:
+        first: 64
+        second: 06a86100
     Drawer_3:
       data:
         first: 1
@@ -188,6 +206,9 @@ ModelImporter:
       data:
         first: 33
         second: be5a3200
+      data:
+        first: 64
+        second: 02a86100
     Drawer_4:
       data:
         first: 1
@@ -201,6 +222,9 @@ ModelImporter:
       data:
         first: 33
         second: ba5a3200
+      data:
+        first: 64
+        second: 1ca86100
     Drawer_5:
       data:
         first: 1
@@ -214,6 +238,9 @@ ModelImporter:
       data:
         first: 33
         second: b65a3200
+      data:
+        first: 64
+        second: 18a86100
     Drawers:
       data:
         first: 1
@@ -248,6 +275,9 @@ ModelImporter:
       data:
         first: 33
         second: a05a3200
+      data:
+        first: 64
+        second: 08a86100
     Handle_4:
       data:
         first: 1
@@ -268,6 +298,9 @@ ModelImporter:
       data:
         first: 33
         second: bc5a3200
+      data:
+        first: 64
+        second: 04a86100
     Handle_6:
       data:
         first: 1
@@ -288,6 +321,9 @@ ModelImporter:
       data:
         first: 33
         second: b85a3200
+      data:
+        first: 64
+        second: 1ea86100
     Handle_8:
       data:
         first: 1
@@ -308,6 +344,9 @@ ModelImporter:
       data:
         first: 33
         second: b45a3200
+      data:
+        first: 64
+        second: 1aa86100
     Loft_NURBS:
       data:
         first: 1
@@ -321,6 +360,9 @@ ModelImporter:
       data:
         first: 33
         second: b05a3200
+      data:
+        first: 64
+        second: 12a86100
     Sphere:
       data:
         first: 1
@@ -334,6 +376,9 @@ ModelImporter:
       data:
         first: 33
         second: a85a3200
+      data:
+        first: 64
+        second: 0ca86100
     Sphere_1:
       data:
         first: 1
@@ -347,6 +392,9 @@ ModelImporter:
       data:
         first: 33
         second: a65a3200
+      data:
+        first: 64
+        second: 0ea86100
     Symmetry_1:
       data:
         first: 1
