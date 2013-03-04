@@ -12,9 +12,14 @@ namespace AssemblyCSharp
 	public class GameState
 	{
 		#region static constants
-		private static readonly String roomKey = "CORE.room";
-		private static readonly String locKey = "CORE.location";
-		private static readonly String dirKey = "CORE.direction";
+		private static readonly String posKeyX = "CORE.position.x";
+		private static readonly String posKeyY = "CORE.position.y";
+		private static readonly String posKeyZ = "CORE.position.z";
+		
+		private static readonly String rotKeyX = "CORE.rotation.x";
+		private static readonly String rotKeyY = "CORE.rotation.y";
+		private static readonly String rotKeyZ = "CORE.rotation.z";
+		private static readonly String rotKeyW = "CORE.rotation.w";
 		
 		private static readonly String saveDir = Application.dataPath + "\\saves";
 		private static readonly String lastPlayedSaveFile = saveDir + "\\lastPlayed.txt";
@@ -53,44 +58,38 @@ namespace AssemblyCSharp
 			return data[key];
 		}
 		
-		public void setRoom(RoomData r) {
-			data[roomKey] = RoomToStringMapping.getName(r);
+		public void setCameraPosition(Vector3 position) {
+			data[posKeyX] = position.x;
+			data[posKeyY] = position.y;
+			data[posKeyZ] = position.z;
 		}
 		
-		public RoomData getRoom() {
-			if (!has(roomKey)) {
-				initializeStartState();
+		public Vector3 getCameraPosition() {
+			if (!has(posKeyX)) {
+				throw new Exception("Camera Position not initialized");
 			}
-			return RoomToStringMapping.getRoom((String) data[roomKey]);
+			return new Vector3((float) data[posKeyX], (float) data[posKeyY], (float) data[posKeyZ]);
 		}
 		
-		public void setLocation(String locName) {
-			data[locKey] = locName;
+		public void setCameraRotation(Quaternion rotation) {
+			data[rotKeyX] = rotation.x;
+			data[rotKeyY] = rotation.y;
+			data[rotKeyZ] = rotation.z;
+			data[rotKeyW] = rotation.w;
 		}
 		
-		public String getLocation() {
-			if (!has(locKey)) {
-				initializeStartState();
+		public Quaternion getCameraRotation() {
+			if (!has(rotKeyX)) {
+				throw new Exception("Camera Rotaiton not initialized");
 			}
-			return (String) data[locKey];
+			return new Quaternion((float) data[rotKeyX], (float) data[rotKeyY],
+				(float) data[rotKeyZ], (float) data[rotKeyW]);
 		}
 		
-		public void setDirection(Direction d) {
-			data[dirKey] = (int) d;
-		}
-		
-		public Direction getDirection() {
-			if (!has(dirKey)) {
-				initializeStartState();
-			}
-			return (Direction) data[dirKey];
-		}
-		
-		private void initializeStartState() {
-			// Define new game start state
-			data.Add(locKey, "bottomRight");
-			data.Add(dirKey, (int) Direction.NORTH);
-			data.Add(roomKey, "Test");
+		private void initializeStartState(Vector3 cameraPosition, Quaternion cameraRotation) {
+			// Define new game start state			
+			setCameraPosition(cameraPosition);
+			setCameraRotation(cameraRotation);
 		}
 		#endregion
 		

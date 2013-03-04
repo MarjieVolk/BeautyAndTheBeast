@@ -1,7 +1,102 @@
 fileFormatVersion: 2
 guid: 1fb0d7cfb6f032b4ab0e9fffb419746c
 ModelImporter:
+  serializedVersion: 15
   fileIDToRecycleName:
+    100000: Handle_3
+    100002: Handle_2
+    100004: Drawer_2
+    100006: Center_Drawer_2
+    100008: Sphere_1
+    100010: Sphere
+    100012: Cylinder
+    100014: Symmetry_1
+    100016: Drawer
+    100018: Cap_2
+    100020: Cap_1
+    100022: Loft_NURBS
+    100024: Handle
+    100026: Center_Drawer
+    100028: Desk_2
+    100030: Desk
+    100032: Handle_9
+    100034: Handle_8
+    100036: Drawer_5
+    100038: Top_Left_Drawer
+    100040: Handle_7
+    100042: Handle_6
+    100044: Drawer_4
+    100046: Handle_5
+    100048: Handle_4
+    100050: Drawer_3
+    100052: Drawers
+    100054: //RootNode
+    100056: Top_Right_Drawer
+    100058: Bottom_Left_Drawer
+    100060: Bottom_Right_Drawer
+    400000: Handle_3
+    400002: Handle_2
+    400004: Drawer_2
+    400006: Center_Drawer_2
+    400008: Sphere_1
+    400010: Sphere
+    400012: Cylinder
+    400014: Symmetry_1
+    400016: Drawer
+    400018: Cap_2
+    400020: Cap_1
+    400022: Loft_NURBS
+    400024: Handle
+    400026: Center_Drawer
+    400028: Desk_2
+    400030: Desk
+    400032: Handle_9
+    400034: Handle_8
+    400036: Drawer_5
+    400038: Top_Left_Drawer
+    400040: Handle_7
+    400042: Handle_6
+    400044: Drawer_4
+    400046: Handle_5
+    400048: Handle_4
+    400050: Drawer_3
+    400052: Drawers
+    400054: //RootNode
+    400056: Top_Right_Drawer
+    400058: Bottom_Left_Drawer
+    400060: Bottom_Right_Drawer
+    2300000: Handle_3
+    2300002: Drawer_2
+    2300004: Center_Drawer_2
+    2300006: Sphere_1
+    2300008: Sphere
+    2300010: Cylinder
+    2300012: Cap_2
+    2300014: Cap_1
+    2300016: Loft_NURBS
+    2300018: Desk_2
+    2300020: Handle_9
+    2300022: Drawer_5
+    2300024: Handle_7
+    2300026: Drawer_4
+    2300028: Handle_5
+    2300030: Drawer_3
+    3300000: Handle_3
+    3300002: Drawer_2
+    3300004: Center_Drawer_2
+    3300006: Sphere_1
+    3300008: Sphere
+    3300010: Cylinder
+    3300012: Cap_2
+    3300014: Cap_1
+    3300016: Loft_NURBS
+    3300018: Desk_2
+    3300020: Handle_9
+    3300022: Drawer_5
+    3300024: Handle_7
+    3300026: Drawer_4
+    3300028: Handle_5
+    3300030: Drawer_3
     4300000: Loft_NURBS
     4300002: Cap_1
     4300004: Cap_2
@@ -18,21 +113,37 @@ ModelImporter:
     4300026: Drawer_5
     4300028: Handle_9
     4300030: Desk_2
-  serializedVersion: 10
+    6400000: Desk_2
+    6400002: Drawer_3
+    6400004: Handle_5
+    6400006: Drawer_2
+    6400008: Handle_3
+    6400010: Center_Drawer_2
+    6400012: Sphere
+    6400014: Sphere_1
+    6400016: Cylinder
+    6400018: Loft_NURBS
+    6400020: Cap_1
+    6400022: Cap_2
+    6400024: Drawer_5
+    6400026: Handle_9
+    6400028: Drawer_4
+    6400030: Handle_7
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
-    generateAnimations: 3
+    legacyGenerateAnimations: 3
     bakeSimulation: 0
-    splitAnimations: 1
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
     clipAnimations: []
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978
@@ -41,7 +152,7 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
-    optimizeMesh: 1
+    optimizeMeshForGPU: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -51,368 +162,21 @@ ModelImporter:
     splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
-  textMetaNamesToFileIDs:
-    //RootNode:
-      data:
-        first: 1
-        second: d6860100
-      data:
-        first: 4
-        second: b61a0600
-      data:
-        first: 111
-        second: 605fa900
-    Bottom_Left_Drawer:
-      data:
-        first: 1
-        second: da860100
-      data:
-        first: 4
-        second: ba1a0600
-    Bottom_Right_Drawer:
-      data:
-        first: 1
-        second: dc860100
-      data:
-        first: 4
-        second: bc1a0600
-    Cap_1:
-      data:
-        first: 1
-        second: b4860100
-      data:
-        first: 4
-        second: 941a0600
-      data:
-        first: 23
-        second: 6e182300
-      data:
-        first: 33
-        second: ae5a3200
-      data:
-        first: 64
-        second: 14a86100
-    Cap_2:
-      data:
-        first: 1
-        second: b2860100
-      data:
-        first: 4
-        second: 921a0600
-      data:
-        first: 23
-        second: 6c182300
-      data:
-        first: 33
-        second: ac5a3200
-      data:
-        first: 64
-        second: 16a86100
-    Center_Drawer:
-      data:
-        first: 1
-        second: ba860100
-      data:
-        first: 4
-        second: 9a1a0600
-    Center_Drawer_2:
-      data:
-        first: 1
-        second: a6860100
-      data:
-        first: 4
-        second: 861a0600
-      data:
-        first: 23
-        second: 64182300
-      data:
-        first: 33
-        second: a45a3200
-      data:
-        first: 64
-        second: 0aa86100
-    Cylinder:
-      data:
-        first: 1
-        second: ac860100
-      data:
-        first: 4
-        second: 8c1a0600
-      data:
-        first: 23
-        second: 6a182300
-      data:
-        first: 33
-        second: aa5a3200
-      data:
-        first: 64
-        second: 10a86100
-    Desk:
-      data:
-        first: 1
-        second: be860100
-      data:
-        first: 4
-        second: 9e1a0600
-    Desk_2:
-      data:
-        first: 1
-        second: bc860100
-      data:
-        first: 4
-        second: 9c1a0600
-      data:
-        first: 23
-        second: 72182300
-      data:
-        first: 33
-        second: b25a3200
-      data:
-        first: 64
-        second: 00a86100
-    Drawer:
-      data:
-        first: 1
-        second: b0860100
-      data:
-        first: 4
-        second: 901a0600
-    Drawer_2:
-      data:
-        first: 1
-        second: a4860100
-      data:
-        first: 4
-        second: 841a0600
-      data:
-        first: 23
-        second: 62182300
-      data:
-        first: 33
-        second: a25a3200
-      data:
-        first: 64
-        second: 06a86100
-    Drawer_3:
-      data:
-        first: 1
-        second: d2860100
-      data:
-        first: 4
-        second: b21a0600
-      data:
-        first: 23
-        second: 7e182300
-      data:
-        first: 33
-        second: be5a3200
-      data:
-        first: 64
-        second: 02a86100
-    Drawer_4:
-      data:
-        first: 1
-        second: cc860100
-      data:
-        first: 4
-        second: ac1a0600
-      data:
-        first: 23
-        second: 7a182300
-      data:
-        first: 33
-        second: ba5a3200
-      data:
-        first: 64
-        second: 1ca86100
-    Drawer_5:
-      data:
-        first: 1
-        second: c4860100
-      data:
-        first: 4
-        second: a41a0600
-      data:
-        first: 23
-        second: 76182300
-      data:
-        first: 33
-        second: b65a3200
-      data:
-        first: 64
-        second: 18a86100
-    Drawers:
-      data:
-        first: 1
-        second: d4860100
-      data:
-        first: 4
-        second: b41a0600
-    Handle:
-      data:
-        first: 1
-        second: b8860100
-      data:
-        first: 4
-        second: 981a0600
-    Handle_2:
-      data:
-        first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
-    Handle_3:
-      data:
-        first: 1
-        second: a0860100
-      data:
-        first: 4
-        second: 801a0600
-      data:
-        first: 23
-        second: 60182300
-      data:
-        first: 33
-        second: a05a3200
-      data:
-        first: 64
-        second: 08a86100
-    Handle_4:
-      data:
-        first: 1
-        second: d0860100
-      data:
-        first: 4
-        second: b01a0600
-    Handle_5:
-      data:
-        first: 1
-        second: ce860100
-      data:
-        first: 4
-        second: ae1a0600
-      data:
-        first: 23
-        second: 7c182300
-      data:
-        first: 33
-        second: bc5a3200
-      data:
-        first: 64
-        second: 04a86100
-    Handle_6:
-      data:
-        first: 1
-        second: ca860100
-      data:
-        first: 4
-        second: aa1a0600
-    Handle_7:
-      data:
-        first: 1
-        second: c8860100
-      data:
-        first: 4
-        second: a81a0600
-      data:
-        first: 23
-        second: 78182300
-      data:
-        first: 33
-        second: b85a3200
-      data:
-        first: 64
-        second: 1ea86100
-    Handle_8:
-      data:
-        first: 1
-        second: c2860100
-      data:
-        first: 4
-        second: a21a0600
-    Handle_9:
-      data:
-        first: 1
-        second: c0860100
-      data:
-        first: 4
-        second: a01a0600
-      data:
-        first: 23
-        second: 74182300
-      data:
-        first: 33
-        second: b45a3200
-      data:
-        first: 64
-        second: 1aa86100
-    Loft_NURBS:
-      data:
-        first: 1
-        second: b6860100
-      data:
-        first: 4
-        second: 961a0600
-      data:
-        first: 23
-        second: 70182300
-      data:
-        first: 33
-        second: b05a3200
-      data:
-        first: 64
-        second: 12a86100
-    Sphere:
-      data:
-        first: 1
-        second: aa860100
-      data:
-        first: 4
-        second: 8a1a0600
-      data:
-        first: 23
-        second: 68182300
-      data:
-        first: 33
-        second: a85a3200
-      data:
-        first: 64
-        second: 0ca86100
-    Sphere_1:
-      data:
-        first: 1
-        second: a8860100
-      data:
-        first: 4
-        second: 881a0600
-      data:
-        first: 23
-        second: 66182300
-      data:
-        first: 33
-        second: a65a3200
-      data:
-        first: 64
-        second: 0ea86100
-    Symmetry_1:
-      data:
-        first: 1
-        second: ae860100
-      data:
-        first: 4
-        second: 8e1a0600
-    Top_Left_Drawer:
-      data:
-        first: 1
-        second: c6860100
-      data:
-        first: 4
-        second: a61a0600
-    Top_Right_Drawer:
-      data:
-        first: 1
-        second: d8860100
-      data:
-        first: 4
-        second: b81a0600
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 

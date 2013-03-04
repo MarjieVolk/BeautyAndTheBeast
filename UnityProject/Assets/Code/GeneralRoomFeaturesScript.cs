@@ -10,16 +10,28 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	 * 
 	 * - Escape menu
 	 * - Autosave
+	 * - Turning buttons
+	 * - Debug
 	 */
 	
 	private static readonly float saveWaitTime = 5; //save every x seconds
 	
 	private Boolean showEscapeMenu = false;
 	private float prevSaveTime;
+	private Rect leftTurnButton;
+	private Rect rightTurnButton;
+	
+	// Debug stuff
+	private static readonly Boolean debug = false;
+	private static readonly Rect screenRect = new Rect(10, 10, 200, 100);
+	public static string debugText = "...";
 	
 	// Use this for initialization
 	void Start () {
 		prevSaveTime = Time.time;
+		float turnButtonWidth = Screen.width * 0.1f;
+		leftTurnButton = new Rect(0, 0, turnButtonWidth, Screen.height);
+		rightTurnButton = new Rect(Screen.width - turnButtonWidth, 0, turnButtonWidth, Screen.height);
 	}
 	
 	// Update is called once per frame
@@ -35,12 +47,25 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	}
 	
 	void OnGUI() {
+		// Turning buttons
+		if (Location.activeLocation != null) {
+			if (GUI.Button(leftTurnButton, "turn left", GUIStyle.none)) {
+				Location.activeLocation.turnLeft();
+			} else if (GUI.Button(rightTurnButton, "turn right", GUIStyle.none)) {
+				Location.activeLocation.turnRight();
+			}
+		}
+		
 		if (showEscapeMenu) {
 			int menuWidth = Screen.width / 3;
 			int menuHeight = (int) (Screen.height * 0.9);
 			int x = (Screen.width - menuWidth) / 2;
 			int y = (Screen.height - menuHeight) / 2;
 			GUI.Window(0, new Rect(x, y, menuWidth, menuHeight), layoutEscapeMenu, "Menu");
+		}
+		
+		if (debug) {
+    		GUI.Label(screenRect, debugText);
 		}
 	}
 	

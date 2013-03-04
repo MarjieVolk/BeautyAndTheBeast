@@ -15,9 +15,5 @@ public class ForceByVelocityEditor : Editor
         if (GUI.changed)
             EditorUtility.SetDirty(target);
     }
-	
-	public static Quaternion toQuaternion(Vector3 v) {
-		return Quaternion.Euler(v.x, v.y, v.z);
-	}
 }
 
