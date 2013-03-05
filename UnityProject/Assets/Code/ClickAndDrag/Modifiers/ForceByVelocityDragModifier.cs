@@ -40,9 +40,9 @@ public class ForceByVelocityDragModifier : DragModifier
 		// This finds the length of the component of v which is parallel to maxVelocity
 		float speed = Vector3.Dot(v, maxVelocity.normalized);
 		
-		Vector3 force = maxVelocity.normalized;
-		force = force * speed;
-		child.constantForce.force = force;
+		Vector3 force = maxVelocity.normalized * speed;
+		force = force * maxVelocity.magnitude;
+		child.constantForce.force = transform.TransformDirection(force);
 	}
 }
 

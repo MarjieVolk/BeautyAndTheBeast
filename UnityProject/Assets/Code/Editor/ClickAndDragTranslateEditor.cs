@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(ClickAndDragTranslate))]
 public class ClickAndDragTranslateEditor : Editor
 {
@@ -35,13 +36,11 @@ public class ClickAndDragTranslateEditor : Editor
 		
 		//TODO: snapTo
 		
-		allowX = EditorGUILayout.Toggle("Translate Along X-Axis", allowX);
+		allowX = EditorGUILayout.Toggle("Translate X", allowX);
 		if (allowX) {
 			EditorGUI.indentLevel++;
-			EditorGUILayout.BeginHorizontal();
 			scriptTarget.minX = EditorGUILayout.FloatField("Min X", scriptTarget.minX);
 			scriptTarget.maxX = EditorGUILayout.FloatField("Max X", scriptTarget.maxX);
-			EditorGUILayout.EndHorizontal();
 			
 			Vector2 d = EditorGUILayout.Vector2Field("dX per dMouse", new Vector2(scriptTarget.dXPerDMouseX, scriptTarget.dXPerDMouseY));
 			scriptTarget.dXPerDMouseX = d.x;
@@ -51,13 +50,11 @@ public class ClickAndDragTranslateEditor : Editor
 			scriptTarget.minX = (scriptTarget.maxX = scriptTarget.transform.localPosition.x);
 		}
 		
-		allowY = EditorGUILayout.Toggle("Translate Along Y-Axis", allowY);
+		allowY = EditorGUILayout.Toggle("Translate Y", allowY);
 		if (allowY) {
 			EditorGUI.indentLevel++;
-			EditorGUILayout.BeginHorizontal();
 			scriptTarget.minY = EditorGUILayout.FloatField("Min Y", scriptTarget.minY);
 			scriptTarget.maxY = EditorGUILayout.FloatField("Max Y", scriptTarget.maxY);
-			EditorGUILayout.EndHorizontal();
 			
 			Vector2 d = EditorGUILayout.Vector2Field("dY per dMouse", new Vector2(scriptTarget.dYPerDMouseX, scriptTarget.dYPerDMouseY));
 			scriptTarget.dYPerDMouseX = d.x;
@@ -67,13 +64,11 @@ public class ClickAndDragTranslateEditor : Editor
 			scriptTarget.minY = (scriptTarget.maxY = scriptTarget.transform.localPosition.y);
 		}
 		
-		allowZ = EditorGUILayout.Toggle("Translate Along Z-Axis", allowZ);
+		allowZ = EditorGUILayout.Toggle("Translate Z", allowZ);
 		if (allowZ) {
 			EditorGUI.indentLevel++;
-			EditorGUILayout.BeginHorizontal();
 			scriptTarget.minZ = EditorGUILayout.FloatField("Min Z", scriptTarget.minZ);
 			scriptTarget.maxZ = EditorGUILayout.FloatField("Max Z", scriptTarget.maxZ);
-			EditorGUILayout.EndHorizontal();
 			
 			Vector2 d = EditorGUILayout.Vector2Field("dZ per dMouse", new Vector2(scriptTarget.dZPerDMouseX, scriptTarget.dZPerDMouseY));
 			scriptTarget.dZPerDMouseX = d.x;

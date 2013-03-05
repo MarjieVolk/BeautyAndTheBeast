@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(ForceByVelocityDragModifier))]
 public class ForceByVelocityEditor : Editor
 {

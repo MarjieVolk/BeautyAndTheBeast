@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using AssemblyCSharp;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(Direction))]
 public class DirectionEditor: Editor
 {

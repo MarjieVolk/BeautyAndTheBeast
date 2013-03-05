@@ -5,8 +5,8 @@ using AssemblyCSharp;
 
 public class ClickAndDragTranslate : ClickAndDrag
 {
-	public static readonly String PARAM_VELOCITY = "velocity";
-	public static readonly String PARAM_DRAG_STRENGTH = "dragStrength";
+	public static readonly String PARAM_VELOCITY = "cadt.velocity";
+	public static readonly String PARAM_DRAG_STRENGTH = "cadt.dragStrength";
 	
 	public Vector3[] snapTo;
 	
