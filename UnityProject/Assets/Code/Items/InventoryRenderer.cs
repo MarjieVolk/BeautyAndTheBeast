@@ -8,7 +8,7 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	public Texture inventoryBackground;
 	public float percentScreenHeight = 0.13f;
 	
-	private Texture[] textures;
+	private Texture[] textures = new Texture[GameState.INVENTORY_SIZE];
 	private Rect backgroundRect;
 	
 	void Start () {

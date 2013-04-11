@@ -5,7 +5,7 @@ using AssemblyCSharp;
 
 public class Location : MonoBehaviour {
 
-	private static readonly float SNAP_THRESHOLD = 0.01f;
+	private static readonly float SNAP_THRESHOLD = 0.5f;
 	public static Location activeLocation;
 	
 	public float maxDistance = 7;

@@ -12,6 +12,7 @@ public class ForceByVelocityEditor : Editor
 		
 		scriptTarget.child = (GameObject) EditorGUILayout.ObjectField("Object", scriptTarget.child, typeof(GameObject), true);
 		scriptTarget.maxVelocity = EditorGUILayout.Vector3Field("Direction and Strength", scriptTarget.maxVelocity);
+		scriptTarget.capForce = EditorGUILayout.FloatField("Cap Force", scriptTarget.capForce);
 			
         if (GUI.changed)
             EditorUtility.SetDirty(target);

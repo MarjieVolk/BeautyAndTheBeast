@@ -7,6 +7,7 @@ public class ForceByVelocityDragModifier : DragModifier
 	
 	public GameObject child;
 	public Vector3 maxVelocity;
+	public float capForce = 0;
 	
 	private bool isDrag = false;
 	
@@ -42,6 +43,8 @@ public class ForceByVelocityDragModifier : DragModifier
 		
 		Vector3 force = maxVelocity.normalized * speed;
 		force = force * maxVelocity.magnitude;
+		if (capForce > 0 && force.magnitude > capForce)
+			force = force.normalized * capForce;
 		child.constantForce.force = transform.TransformDirection(force);
 	}
 }

@@ -23,6 +23,8 @@ namespace AssemblyCSharp
 		
 		public static readonly String invKey = "CORE.inventory";
 		
+		public static readonly int INVENTORY_SIZE = 8;
+		
 		private static readonly String saveDir = Application.dataPath + "\\saves";
 		private static readonly String lastPlayedSaveFile = saveDir + "\\lastPlayed.txt";
 		private static readonly String extension = ".xml";
@@ -101,7 +103,7 @@ namespace AssemblyCSharp
 			for (int i = 0; i < inv.Length; i++) {
 				if (inv[i] == null) {
 					inv[i] = itemId;
-					put(invKey, inv);
+					setInventory(inv);
 					return i;
 				}
 			}
@@ -109,11 +111,25 @@ namespace AssemblyCSharp
 			throw new Exception("Item cannot be added to inventory - Inventory is full");
 		}
 		
-		public String[] getInventory() {
-			if (!has(invKey))
-				throw new Exception("Inventory not initialized");
+		public void setInventory(String[] inv) {
+			String[] oldInv = getInventory();
 			
-			return (String[]) get(invKey);
+			for (int i = 0; i < INVENTORY_SIZE; i++) {
+				put(invKey + "." + i, inv[i]);
+			}
+			
+			foreach (GameStateListener gsl in listeners) {
+				gsl.stateChanged(invKey, oldInv, inv);
+			}
+		}
+		
+		public String[] getInventory() {			
+			String[] inv = new String[INVENTORY_SIZE];
+			for (int i = 0; i < INVENTORY_SIZE; i++) {
+				inv[i] = (String) get(invKey + "." + i);
+			}
+			
+			return inv;
 		}
 		
 		public void addListener(GameStateListener listener) {
@@ -124,7 +140,10 @@ namespace AssemblyCSharp
 			// Define new game start state			
 			//setCameraPosition(cameraPosition);
 			//setCameraRotation(cameraRotation);
-			put(invKey, new String[8]);
+			
+			for (int i = 0; i < INVENTORY_SIZE; i++) {
+				put(invKey + "." + i, null);
+			}
 		}
 		#endregion
 		

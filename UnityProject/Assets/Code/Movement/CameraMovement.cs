@@ -73,7 +73,7 @@ namespace AssemblyCSharp
 	
 	public class ConstantSpeedMovement : PercentBasedMovement {
 		private static readonly float UNITS_PER_SECOND = 3;
-		private static readonly float RADIANS_PER_SECOND = 160;
+		private static readonly float RADIANS_PER_SECOND = 100;
 		protected float duration;
 		
 		public ConstantSpeedMovement(Vector3 startPos, Quaternion startRot):
