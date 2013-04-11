@@ -21,6 +21,8 @@ public class Location : MonoBehaviour {
 			Camera.mainCamera.transform.position = transform.position;
 			Direction dir = getNearestDirection(Camera.mainCamera.transform.rotation);
 			Camera.mainCamera.transform.rotation = dir.rotation;
+			GameState.getInstance().setCameraPosition(transform.position);
+			GameState.getInstance().setCameraRotation(dir.rotation);
 			curD = dir.direction;
 		}
 	}

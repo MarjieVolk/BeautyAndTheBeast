@@ -21,6 +21,8 @@ namespace AssemblyCSharp
 		private static readonly String rotKeyZ = "CORE.rotation.z";
 		private static readonly String rotKeyW = "CORE.rotation.w";
 		
+		public static readonly String invKey = "CORE.inventory";
+		
 		private static readonly String saveDir = Application.dataPath + "\\saves";
 		private static readonly String lastPlayedSaveFile = saveDir + "\\lastPlayed.txt";
 		private static readonly String extension = ".xml";
@@ -31,13 +33,13 @@ namespace AssemblyCSharp
 		
 		#region constructors and fields
 		private SerializableDictionary<String, object> data;
+		private List<GameStateListener> listeners = new List<GameStateListener>();
 		
-		private GameState () {
-			data = new SerializableDictionary<String, object>();
-		}
+		private GameState () : this (new SerializableDictionary<String, object>()) {}
 		
 		private GameState (SerializableDictionary<String, object> data) {
 			this.data = data;
+			initializeStartState(new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
 		}
 		#endregion
 		
@@ -47,10 +49,17 @@ namespace AssemblyCSharp
 		}
 		
 		public void put(String key, object val) {
+			object oldVal = null;
+			
 			if (has(key)) {
+				oldVal = data[key];
 				data[key] = val;
 			} else {
 				data.Add(key, val);
+			}
+			
+			foreach (GameStateListener gsl in listeners) {
+				gsl.stateChanged(key, oldVal, val);
 			}
 		}
 		
@@ -59,37 +68,63 @@ namespace AssemblyCSharp
 		}
 		
 		public void setCameraPosition(Vector3 position) {
-			data[posKeyX] = position.x;
-			data[posKeyY] = position.y;
-			data[posKeyZ] = position.z;
+			put(posKeyX, position.x);
+			put(posKeyY, position.y);
+			put(posKeyZ, position.z);
 		}
 		
 		public Vector3 getCameraPosition() {
 			if (!has(posKeyX)) {
 				throw new Exception("Camera Position not initialized");
 			}
-			return new Vector3((float) data[posKeyX], (float) data[posKeyY], (float) data[posKeyZ]);
+			return new Vector3((float) get(posKeyX), (float) get(posKeyY), (float) get(posKeyZ));
 		}
 		
 		public void setCameraRotation(Quaternion rotation) {
-			data[rotKeyX] = rotation.x;
-			data[rotKeyY] = rotation.y;
-			data[rotKeyZ] = rotation.z;
-			data[rotKeyW] = rotation.w;
+			put(rotKeyX, rotation.x);
+			put(rotKeyY, rotation.y);
+			put(rotKeyZ, rotation.z);
+			put(rotKeyW, rotation.w);
 		}
 		
 		public Quaternion getCameraRotation() {
 			if (!has(rotKeyX)) {
 				throw new Exception("Camera Rotaiton not initialized");
 			}
-			return new Quaternion((float) data[rotKeyX], (float) data[rotKeyY],
-				(float) data[rotKeyZ], (float) data[rotKeyW]);
+			return new Quaternion((float) get(rotKeyX), (float) get(rotKeyY),
+				(float) get(rotKeyZ), (float) get(rotKeyW));
+		}
+		
+		public int addItem(String itemId) {
+			String[] inv = getInventory();
+			
+			for (int i = 0; i < inv.Length; i++) {
+				if (inv[i] == null) {
+					inv[i] = itemId;
+					put(invKey, inv);
+					return i;
+				}
+			}
+			
+			throw new Exception("Item cannot be added to inventory - Inventory is full");
+		}
+		
+		public String[] getInventory() {
+			if (!has(invKey))
+				throw new Exception("Inventory not initialized");
+			
+			return (String[]) get(invKey);
+		}
+		
+		public void addListener(GameStateListener listener) {
+			listeners.Add(listener);
 		}
 		
 		private void initializeStartState(Vector3 cameraPosition, Quaternion cameraRotation) {
 			// Define new game start state			
-			setCameraPosition(cameraPosition);
-			setCameraRotation(cameraRotation);
+			//setCameraPosition(cameraPosition);
+			//setCameraRotation(cameraRotation);
+			put(invKey, new String[8]);
 		}
 		#endregion
 		
@@ -187,22 +222,32 @@ namespace AssemblyCSharp
 		
 		// Convert object to serialized xml string
    		private static String SerializeObject(object pObject) { 
-      		string XmlizedString = null; 
+      		string XmlizedString = null;
+			
       		MemoryStream memoryStream = new MemoryStream(); 
-     		XmlSerializer xs = new XmlSerializer(typeof(SerializableDictionary<String, object>)); 
+     		XmlSerializer xs = new XmlSerializer(typeof(SerializableDictionary<String, object>));
 			XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
+			
 			xs.Serialize(xmlTextWriter, pObject); 
 			memoryStream = (MemoryStream) xmlTextWriter.BaseStream; 
-			XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray()); 
+			XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray());
+			
+			memoryStream.Close();
+			xmlTextWriter.Close();
+			
 			return XmlizedString; 
 		} 
  
 		// Convert serialized xml string back into object
 		private static object DeserializeObject(string pXmlizedString) { 
 			XmlSerializer xs = new XmlSerializer(typeof(SerializableDictionary<String, object>)); 
-			MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(pXmlizedString)); 
-			//XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
-			return xs.Deserialize(memoryStream); 
+			MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(pXmlizedString));
+			
+			object o = xs.Deserialize(memoryStream);
+			
+			memoryStream.Close();
+			
+			return o;
 		}
 		
 		private static string UTF8ByteArrayToString(byte[] characters) {      

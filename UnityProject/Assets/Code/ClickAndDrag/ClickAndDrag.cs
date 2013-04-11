@@ -5,7 +5,10 @@ using AssemblyCSharp;
 
 public abstract class ClickAndDrag : MonoBehaviour {
 	
+	public static readonly float NO_MAX_DISTANCE = -1;
+	
 	public String gameStateKey;
+	public float maxDistance = 3;
 	
 	private DragState state = DragState.NONE;
 	private Vector3 dragStartMousePos;
@@ -56,6 +59,10 @@ public abstract class ClickAndDrag : MonoBehaviour {
 	}
 	
 	void OnMouseOver() {
+		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
+		if (distance > maxDistance)
+			return;
+		
 		// If mouse is pressed
 		if (state != DragState.DRAG && Input.GetMouseButtonDown(0)) {
 			state = DragState.DRAG;

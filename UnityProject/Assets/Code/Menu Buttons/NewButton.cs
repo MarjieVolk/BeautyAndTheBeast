@@ -26,7 +26,7 @@ public class NewButton : MonoBehaviour {
 		}
 		
 		GameState.startNewGame(newGameName);
-    	Application.LoadLevel ("CubeScene");
+    	Application.LoadLevel("Library");
 	}
 	
 }

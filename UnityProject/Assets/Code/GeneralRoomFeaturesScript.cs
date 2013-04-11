@@ -14,7 +14,7 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	 * - Debug
 	 */
 	
-	private static readonly float saveWaitTime = 5; //save every x seconds
+	private static readonly float saveWaitTime = 30; //save every x seconds
 	
 	private Boolean showEscapeMenu = false;
 	private float prevSaveTime;
@@ -49,9 +49,9 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	void OnGUI() {
 		// Turning buttons
 		if (Location.activeLocation != null) {
-			if (GUI.Button(leftTurnButton, "turn left", GUIStyle.none)) {
+			if (GUI.Button(leftTurnButton, "", GUIStyle.none)) {
 				Location.activeLocation.turnLeft();
-			} else if (GUI.Button(rightTurnButton, "turn right", GUIStyle.none)) {
+			} else if (GUI.Button(rightTurnButton, "", GUIStyle.none)) {
 				Location.activeLocation.turnRight();
 			}
 		}
