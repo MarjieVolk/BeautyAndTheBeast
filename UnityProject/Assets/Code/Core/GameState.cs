@@ -111,6 +111,20 @@ namespace AssemblyCSharp
 			throw new Exception("Item cannot be added to inventory - Inventory is full");
 		}
 		
+		public bool removeItem(String itemId) {
+			String[] inv = getInventory();
+			
+			for (int i = 0; i < inv.Length; i++) {
+				if (itemId.Equals(inv[i])) {
+					inv[i] = null;
+					setInventory(inv);
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
 		public void setInventory(String[] inv) {
 			String[] oldInv = getInventory();
 			

@@ -3,12 +3,13 @@ using System.Collections;
 using System;
 using AssemblyCSharp;
 
-public abstract class ClickAndDrag : MonoBehaviour {
+public abstract class ClickAndDrag : Activatable {
 	
 	public static readonly float NO_MAX_DISTANCE = -1;
 	
 	public String gameStateKey;
 	public float maxDistance = 3;
+	public bool isActive = true; // Right now isActive determines only whether main drag will occur. Modifiers are unaffected.
 	
 	private DragState state = DragState.NONE;
 	private Vector3 dragStartMousePos;
@@ -34,14 +35,15 @@ public abstract class ClickAndDrag : MonoBehaviour {
 		}
 	}
 	
-	void Update () {
-		if (!Input.GetMouseButton(0) && state == DragState.DRAG) {
+	void Update () {		
+		if (!Input.GetMouseButton(0) && state == DragState.DRAG)
 			endDrag();
-		}
 		
 		if (state == DragState.DRAG) {
 			DragEvent e = new DragEvent(DragState.DRAG);
+			
 			doDrag(e, dragStartMousePos, Input.mousePosition);
+			
 			foreach (DragModifier m in modifiers())
 					m.handleDragEvent(e);	
 			
@@ -56,6 +58,9 @@ public abstract class ClickAndDrag : MonoBehaviour {
 					m.endSnap();	
 			}
 		}
+		
+		if (!isActive)
+			setVisualState(snapToIndex);
 	}
 	
 	void OnMouseOver() {
@@ -67,6 +72,7 @@ public abstract class ClickAndDrag : MonoBehaviour {
 		if (state != DragState.DRAG && Input.GetMouseButtonDown(0)) {
 			state = DragState.DRAG;
 			dragStartMousePos = Input.mousePosition;
+			
 			initDrag(dragStartMousePos);
 			
 			foreach (DragModifier m in modifiers())
@@ -75,7 +81,10 @@ public abstract class ClickAndDrag : MonoBehaviour {
 	}
 	
 	private void endDrag() {
-		snapToIndex = initSnap();
+		if (isActive)
+			snapToIndex = initSnap();
+		else
+			initSnap();
 		state = DragState.SNAP;
 		foreach (DragModifier m in modifiers()) {
 			m.endDrag();
@@ -94,5 +103,9 @@ public abstract class ClickAndDrag : MonoBehaviour {
 			dms[i] = (DragModifier) comps[i];
 		}
 		return dms;
+	}
+	
+	public override void setActive(bool active) {
+		isActive = active;
 	}
 }

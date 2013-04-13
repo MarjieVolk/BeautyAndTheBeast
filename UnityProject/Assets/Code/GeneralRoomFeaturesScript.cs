@@ -22,7 +22,7 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	private Rect rightTurnButton;
 	
 	// Debug stuff
-	private static readonly Boolean debug = false;
+	private static readonly Boolean debug = true;
 	private static readonly Rect screenRect = new Rect(10, 10, 200, 100);
 	public static string debugText = "...";
 	

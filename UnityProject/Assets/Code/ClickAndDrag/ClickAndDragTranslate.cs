@@ -95,10 +95,13 @@ public class ClickAndDragTranslate : ClickAndDrag
 		}
 	}
 	
+	public Vector3 getClampedPosition(Vector3 pos) {
+		return new Vector3(Mathf.Clamp(pos.x, minX, maxX),
+			Mathf.Clamp(pos.y, minY, maxY), Mathf.Clamp(pos.z, minZ, maxZ));
+	}
+	
 	private void setPosition(Vector3 newPosition) {
-		Vector3 p = new Vector3(Mathf.Clamp(newPosition.x, minX, maxX),
-			Mathf.Clamp(newPosition.y, minY, maxY), Mathf.Clamp(newPosition.z, minZ, maxZ));
-		
+		Vector3 p = getClampedPosition(newPosition);
 		transform.localPosition = p;
 	}
 	

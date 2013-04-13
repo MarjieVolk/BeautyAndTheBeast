@@ -25,7 +25,7 @@ public class ClickToPickUp : MonoBehaviour {
 	void OnMouseUpAsButton() {
 		GameState.getInstance().addItem(itemId);
 		GameState.getInstance().put(getKey(), false);
-		Destroy(transform.root.gameObject);
+		Destroy(transform.gameObject);
 	}
 	
 	private String getKey() {

@@ -17,13 +17,14 @@ public class Location : MonoBehaviour {
 		Vector3 cameraPosition = Camera.mainCamera.transform.position;
 		bool isActive = (cameraPosition - transform.position).magnitude <= SNAP_THRESHOLD;
 		if (isActive) {
-			activate();
-			Camera.mainCamera.transform.position = transform.position;
-			Direction dir = getNearestDirection(Camera.mainCamera.transform.rotation);
-			Camera.mainCamera.transform.rotation = dir.rotation;
-			GameState.getInstance().setCameraPosition(transform.position);
-			GameState.getInstance().setCameraRotation(dir.rotation);
-			curD = dir.direction;
+//			activate();
+//			Camera.mainCamera.transform.position = transform.position;
+//			Direction dir = getNearestDirection(Camera.mainCamera.transform.rotation);
+//			Camera.mainCamera.transform.rotation = dir.rotation;
+//			GameState.getInstance().setCameraPosition(transform.position);
+//			GameState.getInstance().setCameraRotation(dir.rotation);
+//			curD = dir.direction;
+			moveHere();
 		}
 	}
 	
@@ -32,20 +33,21 @@ public class Location : MonoBehaviour {
 			return;
 		
 		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
-		if (distance > maxDistance)
-			return;
-		
-		// If mouse clicked & close enough, move camera here
+		if (distance <= maxDistance)
+			moveHere();
+	}
+	
+	private void moveHere() {
 		// TODO: be more smart about picking which direction the camera should face
 		Direction turnTo = getNearestDirection(Camera.mainCamera.transform.rotation);
 		curD = turnTo.direction;
 		CameraAction action = new CameraAction(this, transform.position, turnTo.rotation);
 		CameraController.instance.addAction(action);
-		//activeLocation = null;
 	}
 	
 	public void activate() {
 		activeLocation = this;
+		GeneralRoomFeaturesScript.debugText = this.gameObject.name;
 	}
 	
 	public void turnLeft() {
@@ -67,9 +69,11 @@ public class Location : MonoBehaviour {
 		DirectionType d = DirectionUtil.getRight(curD);
 		Direction dir = null;
 		
-		while (dir == null && d != curD) {
+		int i = 0;
+		while (dir == null && d != curD && i < 4) {
 			d = DirectionUtil.getRight(d);
 			dir = getAt (d);
+			i++;
 		}
 		
 		if (dir != null) {

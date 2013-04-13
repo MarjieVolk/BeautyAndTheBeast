@@ -14,7 +14,11 @@ public class DirectionEditor: Editor
 	
 	void OnEnable() {
 		scriptTarget = (Direction) target;
+		
 		rotationEuler = toVector3(scriptTarget.rotation);
+		rotationEuler.x = (float) decimal.Round((decimal) rotationEuler.x, 2, MidpointRounding.AwayFromZero);
+		rotationEuler.y = (float) decimal.Round((decimal) rotationEuler.y, 2, MidpointRounding.AwayFromZero);
+		rotationEuler.z = (float) decimal.Round((decimal) rotationEuler.z, 2, MidpointRounding.AwayFromZero);
 		
 		useDefault = rotationEuler.Equals(DirectionUtil.getDefaultEulerAngles(scriptTarget.direction)) ||
 			rotationEuler.magnitude == 0;

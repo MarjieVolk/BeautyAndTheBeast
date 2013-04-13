@@ -12,6 +12,9 @@ public class ClickAndDragTranslateEditor : Editor
 	private bool allowY = false;
 	private bool allowZ = false;
 	
+	private bool snapOpen = false;
+	private Vector3[] snapPoints;
+	
 	void OnEnable() {
 		scriptTarget = (ClickAndDragTranslate) target;
 		
@@ -25,6 +28,11 @@ public class ClickAndDragTranslateEditor : Editor
 			return;
 		}
 		
+		if (scriptTarget.snapTo == null)
+			scriptTarget.snapTo = new Vector3[] { scriptTarget.getClampedPosition(new Vector3(0, 0, 0)) };
+		
+		snapPoints = scriptTarget.snapTo;
+		
 		Vector3 p = scriptTarget.transform.localPosition;
 		allowX = !(p.x == scriptTarget.minX && p.x == scriptTarget.maxX);
 		allowY = !(p.y == scriptTarget.minY && p.y == scriptTarget.maxY);
@@ -34,7 +42,33 @@ public class ClickAndDragTranslateEditor : Editor
 	public override void OnInspectorGUI() {
 		scriptTarget.gameStateKey = EditorGUILayout.TextField("Game State Key", scriptTarget.gameStateKey);
 		
-		//TODO: snapTo
+		scriptTarget.isActive = EditorGUILayout.Toggle("Active", scriptTarget.isActive);
+		
+		snapOpen = EditorGUILayout.Foldout(snapOpen, "Snap points");
+		if (snapOpen) {
+			EditorGUI.indentLevel++;
+			
+			int newLength = EditorGUILayout.IntField("Number", snapPoints.Length);
+			if (newLength != snapPoints.Length) {
+				Vector3[] newSnapPoints = new Vector3[newLength];
+				for (int i = 0; i < newSnapPoints.Length; i++) {
+					if (i < snapPoints.Length)
+						newSnapPoints[i] = snapPoints[i];
+					else
+						newSnapPoints[i] = scriptTarget.getClampedPosition(new Vector3(0, 0, 0));
+				}
+				
+				snapPoints = newSnapPoints;
+			}
+			
+			for (int i = 0; i < snapPoints.Length; i++) {
+				snapPoints[i] = EditorGUILayout.Vector3Field("" + i, snapPoints[i]);
+			}
+			
+			EditorGUI.indentLevel--;
+			
+			scriptTarget.snapTo = snapPoints;
+		}
 		
 		allowX = EditorGUILayout.Toggle("Translate X", allowX);
 		if (allowX) {
