@@ -8,6 +8,10 @@ public class ClickAndDragTranslate : ClickAndDrag
 	public static readonly String PARAM_VELOCITY = "cadt.velocity";
 	public static readonly String PARAM_DRAG_STRENGTH = "cadt.dragStrength";
 	
+	public static readonly String PARAM_OLD_P = "cadt.oldP";
+	public static readonly String PARAM_DESIRED_NEW_P = "cadt.desiredNewP";
+	public static readonly String PARAM_NEW_P = "cadt.newP";
+	
 	public Vector3[] snapTo;
 	
 	public float dXPerDMouseX = 0;
@@ -74,8 +78,11 @@ public class ClickAndDragTranslate : ClickAndDrag
 		v = (newP - oldP) / Time.deltaTime;
 		
 		//Populate event
-		toPopulate.putParam(PARAM_VELOCITY, v);
+		toPopulate.putParam(PARAM_VELOCITY, this.isActive ? v : new Vector3(0, 0, 0));
 		toPopulate.putParam(PARAM_DRAG_STRENGTH, (desiredNewP - oldP) / Time.deltaTime);
+		toPopulate.putParam(PARAM_OLD_P, oldP);
+		toPopulate.putParam(PARAM_DESIRED_NEW_P, desiredNewP);
+		toPopulate.putParam(PARAM_NEW_P, this.isActive ? newP : oldP);
 	}
 	
 	protected override bool doSnap(DragEvent toPopulate, int snapToIndex) {
@@ -85,14 +92,25 @@ public class ClickAndDragTranslate : ClickAndDrag
 		
 		//Populate event
 		toPopulate.putParam(PARAM_VELOCITY, v);
+		toPopulate.putParam(PARAM_OLD_P, transform.position);
 		
-		if (v.magnitude * Time.deltaTime > direction.magnitude) {
-			setPosition(snapTo[snapToIndex]);
-			return true;
+		Vector3 desiredNewP;
+		bool retVal;
+		
+		if (v.magnitude * Time.deltaTime + 0.05 >= direction.magnitude) {
+			desiredNewP = snapTo[snapToIndex];
+			retVal = true;
 		} else {
-			setPosition((v * Time.deltaTime) + transform.localPosition);
-			return false;
+			desiredNewP = (v * Time.deltaTime) + transform.localPosition;
+			retVal = false;
 		}
+		
+		setPosition(desiredNewP);
+		
+		toPopulate.putParam(PARAM_DESIRED_NEW_P, desiredNewP);
+		toPopulate.putParam(PARAM_NEW_P, transform.position);
+		
+		return retVal;
 	}
 	
 	public Vector3 getClampedPosition(Vector3 pos) {

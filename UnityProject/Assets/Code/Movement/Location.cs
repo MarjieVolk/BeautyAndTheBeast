@@ -54,9 +54,11 @@ public class Location : MonoBehaviour {
 		DirectionType d = DirectionUtil.getLeft(curD);
 		Direction dir = null;
 		
-		while (dir == null && d != curD) {
-			d = DirectionUtil.getLeft(d);
+		int i = 0;
+		while (dir == null && d != curD && i < 4) {
 			dir = getAt (d);
+			d = DirectionUtil.getLeft(d);
+			i++;
 		}
 		
 		if (dir != null) {
@@ -71,8 +73,8 @@ public class Location : MonoBehaviour {
 		
 		int i = 0;
 		while (dir == null && d != curD && i < 4) {
-			d = DirectionUtil.getRight(d);
 			dir = getAt (d);
+			d = DirectionUtil.getRight(d);
 			i++;
 		}
 		

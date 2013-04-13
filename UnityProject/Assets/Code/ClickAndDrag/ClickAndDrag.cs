@@ -81,10 +81,10 @@ public abstract class ClickAndDrag : Activatable {
 	}
 	
 	private void endDrag() {
+		int newSnapToIndex = initSnap();
 		if (isActive)
-			snapToIndex = initSnap();
-		else
-			initSnap();
+			snapToIndex = newSnapToIndex;
+			
 		state = DragState.SNAP;
 		foreach (DragModifier m in modifiers()) {
 			m.endDrag();
