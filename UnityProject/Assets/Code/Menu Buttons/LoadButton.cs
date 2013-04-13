@@ -10,6 +10,7 @@ public class LoadButton : MonoBehaviour {
 	private Boolean showLoadMenu = false;
 	private string[] saves;
 	private int selected = 0;
+	private Vector2 scrollPos = new Vector2(0, 0);
 	
 	// Use this for initialization
 	void Start () {
@@ -28,30 +29,43 @@ public class LoadButton : MonoBehaviour {
 	
 	private void loadGame(string gameName) {
 		GameState.loadGame(gameName);
-    	Application.LoadLevel ("CubeScene");
+    	Application.LoadLevel("Library");
 	}
 	
 	void OnGUI() {
 		GUI.skin = skin;
 		
 		if (showLoadMenu) {
+			GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "", GUIStyle.none);
+			
 			int menuWidth = Screen.width / 3;
 			int menuHeight = (int) (Screen.height * 0.9);
 			int x = (Screen.width - menuWidth) / 2;
 			int y = (Screen.height - menuHeight) / 2;
-			GUI.Window(0, new Rect(x, y, menuWidth, menuHeight), layoutLoadWindow, "Load Game");
+			GUILayout.Window(0, new Rect(x, y, menuWidth, menuHeight), layoutLoadWindow, "Load Game");
 		}
 	}
 	
 	void layoutLoadWindow(int windowID) {
-		selected = GUI.SelectionGrid(new Rect(60, 40, 200, 300), selected, saves, 1);
+		GUILayout.BeginScrollView(scrollPos, false, true);
+		selected = GUILayout.SelectionGrid(selected, saves, 1);
+		GUILayout.EndScrollView();
 		
-		if (GUI.Button(new Rect(60, 400, 50, 20), "Load")) {
+		GUILayout.BeginHorizontal();
+		
+		if (GUILayout.Button("Load")) {
 			loadGame(saves[selected]);
 		}
 		
-		if (GUI.Button(new Rect(130, 400, 60, 20), "Cancel")) {
+		if (GUILayout.Button("Delete")) {
+			GameState.deleteGame(saves[selected]);
+			saves = GameState.getSavedGames();
+		}
+		
+		if (GUILayout.Button("Cancel")) {
 			showLoadMenu = false;
 		}
+		
+		GUILayout.EndHorizontal();
 	}
 }

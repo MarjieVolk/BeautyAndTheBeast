@@ -8,7 +8,7 @@ public class ClickToPickUp : MonoBehaviour {
 	public String itemId;
 	public String gameStateKey = "";
 	
-	private AudioSource audio;
+	private AudioSource pickUpSound;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,12 +16,12 @@ public class ClickToPickUp : MonoBehaviour {
 			GameState.getInstance().put(getKey(), true);
 		
 		if (!((bool) GameState.getInstance().get(getKey())))
-			Destroy(transform.root.gameObject);
+			Destroy(transform.gameObject);
 		
 		GameObject obj = new GameObject();
 		obj.transform.position = this.transform.position;
-		audio = obj.AddComponent(typeof(AudioSource)) as AudioSource;
-		audio.clip = Resources.Load("Sound Effects/Pick Up") as AudioClip;
+		pickUpSound = obj.AddComponent(typeof(AudioSource)) as AudioSource;
+		pickUpSound.clip = Resources.Load("Sound Effects/Pick Up") as AudioClip;
 	}
 	
 	// Update is called once per frame
@@ -33,7 +33,7 @@ public class ClickToPickUp : MonoBehaviour {
 		GameState.getInstance().addItem(itemId);
 		GameState.getInstance().put(getKey(), false);
 		
-		audio.Play();
+		pickUpSound.Play();
 		
 		Destroy(transform.gameObject);
 	}

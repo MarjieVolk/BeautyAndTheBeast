@@ -37,11 +37,12 @@ namespace AssemblyCSharp
 		private SerializableDictionary<String, object> data;
 		private List<GameStateListener> listeners = new List<GameStateListener>();
 		
-		private GameState () : this (new SerializableDictionary<String, object>()) {}
+		private GameState () : this (new SerializableDictionary<String, object>()) {
+			initializeStartState();
+		}
 		
 		private GameState (SerializableDictionary<String, object> data) {
 			this.data = data;
-			initializeStartState(new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
 		}
 		#endregion
 		
@@ -150,11 +151,7 @@ namespace AssemblyCSharp
 			listeners.Add(listener);
 		}
 		
-		private void initializeStartState(Vector3 cameraPosition, Quaternion cameraRotation) {
-			// Define new game start state			
-			//setCameraPosition(cameraPosition);
-			//setCameraRotation(cameraRotation);
-			
+		private void initializeStartState() {
 			for (int i = 0; i < INVENTORY_SIZE; i++) {
 				put(invKey + "." + i, null);
 			}
@@ -224,6 +221,10 @@ namespace AssemblyCSharp
 				simpleNames[i] = Path.GetFileNameWithoutExtension(nameWithExtension);
 			}
 			return simpleNames;
+		}
+		
+		public static void deleteGame(string gameName) {
+			File.Delete(getFilePathForName(gameName));
 		}
 		
 		private static String getFilePathForName(String gameName) {

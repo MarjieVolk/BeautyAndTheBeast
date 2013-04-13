@@ -16,6 +16,6 @@ public class ContinueButton : MonoBehaviour {
 	
 	void OnMouseDown () {
 		GameState.loadLastPlayedGame();
-    	Application.LoadLevel("CubeScene");
+    	Application.LoadLevel("Library");
 	}
 }

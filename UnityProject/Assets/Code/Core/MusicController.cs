@@ -13,6 +13,10 @@ public class MusicController : MonoBehaviour {
 	private float timeOfLastSong = -1;
 		
 	void Awake() {
+		UnityEngine.Object[] musicControllers = UnityEngine.Object.FindObjectsOfType(typeof(MusicController));
+		if (musicControllers.Length > 1)
+			Destroy(this.gameObject);
+		
 		DontDestroyOnLoad(transform.gameObject);
 	}
 	
