@@ -22,10 +22,7 @@ public class Location : MonoBehaviour {
 		}
 	}
 	
-	void OnMouseOver() {
-		if (!Input.GetMouseButtonDown(0))
-			return;
-		
+	void OnMouseUpAsButton() {		
 		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
 		if (distance <= maxDistance)
 			moveHere();
@@ -35,7 +32,7 @@ public class Location : MonoBehaviour {
 		Gizmos.DrawIcon(transform.position, "LocationGizmo.png");
 	}
 	
-	private void moveHere() {
+	public void moveHere() {
 		Direction favored = null;
 		if (useFavoredDirection)
 			favored = getAt(favoredDirection);

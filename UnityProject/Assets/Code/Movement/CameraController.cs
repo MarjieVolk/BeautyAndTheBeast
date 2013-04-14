@@ -29,7 +29,12 @@ public class CameraController : MonoBehaviour {
 		if (cur == null && next != null) {
 			cur = next;
 			next = null;
-			cur.getLocation().activate();
+			
+			if (cur.getLocation() != null) {
+				cur.getLocation().activate();
+				GameState.getInstance().setCameraPosition(transform.position);
+				GameState.getInstance().setCameraRotation(transform.rotation);
+			}
 			
 			Vector3 goalPos = cur.hasPosition() ? cur.getPosition() : transform.position;
 			Quaternion goalRot = cur.hasRotation() ? cur.getRotation() : transform.rotation;
@@ -72,6 +77,10 @@ public class CameraController : MonoBehaviour {
 	
 	public void addAction(CameraAction action) {
 		next = action;
+	}
+	
+	public void moveTo(Location initiator, Vector3 position, Quaternion rotation) {
+		addAction(new CameraAction(initiator, position, rotation));
 	}
 	
 	public void moveTo(Location initiator, Vector3 position) {
