@@ -7,7 +7,7 @@ public class NewButton : MonoBehaviour {
 	
 	private bool showNewMenu = false;
 	private bool showConfirmMenu = false;
-	private String gameName = "";
+	private String gameName = "game";
 	
 	private Rect menuRect;
 	
@@ -18,6 +18,15 @@ public class NewButton : MonoBehaviour {
 		int x = (Screen.width - menuWidth) / 2;
 		int y = (Screen.height - menuHeight) / 2;
 		menuRect = new Rect(x, y, menuWidth, menuHeight);
+		
+		string[] games = GameState.getSavedGames();
+		if (contains(games, gameName)) {
+			int i = 1;
+			while(contains(games, gameName + i)) {
+				i++;
+			}
+			gameName += i;
+		}
 	}
 	
 	// Update is called once per frame
@@ -87,5 +96,14 @@ public class NewButton : MonoBehaviour {
 	private void start() {
 		GameState.startNewGame(gameName);
     	Application.LoadLevel("Library");
+	}
+	
+	private bool contains(string[] array, string val) {
+		foreach (string s in array) {
+			if (s.Equals(val))
+				return true;
+		}
+		
+		return false;
 	}
 }

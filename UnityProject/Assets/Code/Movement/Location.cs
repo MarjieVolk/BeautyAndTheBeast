@@ -9,21 +9,15 @@ public class Location : MonoBehaviour {
 	public static Location activeLocation;
 	
 	public float maxDistance = 7;
+	public Boolean useFavoredDirection = false;
+	public DirectionType favoredDirection = DirectionType.NORTH;
 	
 	private DirectionType curD = DirectionType.NORTH;
 	
-	// Use this for initialization
 	void Start () {		
 		Vector3 cameraPosition = Camera.mainCamera.transform.position;
 		bool isActive = (cameraPosition - transform.position).magnitude <= SNAP_THRESHOLD;
 		if (isActive) {
-//			activate();
-//			Camera.mainCamera.transform.position = transform.position;
-//			Direction dir = getNearestDirection(Camera.mainCamera.transform.rotation);
-//			Camera.mainCamera.transform.rotation = dir.rotation;
-//			GameState.getInstance().setCameraPosition(transform.position);
-//			GameState.getInstance().setCameraRotation(dir.rotation);
-//			curD = dir.direction;
 			moveHere();
 		}
 	}
@@ -37,9 +31,33 @@ public class Location : MonoBehaviour {
 			moveHere();
 	}
 	
+	void OnDrawGizmos() {
+		Gizmos.DrawIcon(transform.position, "LocationGizmo.png");
+	}
+	
 	private void moveHere() {
-		// TODO: be more smart about picking which direction the camera should face
-		Direction turnTo = getNearestDirection(Camera.mainCamera.transform.rotation);
+		Direction favored = null;
+		if (useFavoredDirection)
+			favored = getAt(favoredDirection);
+		
+		Direction[] closest = getNearestDirections(Camera.mainCamera.transform.rotation);
+		Direction turnTo = closest[0];
+		
+		// If favored is activated & the favored direction is present,
+		// decide whether we should select the favored direction instead
+		if (favored != null && favoredDirection != turnTo.direction) {
+			int indexOfFavored = -1;
+			for (int i = 0; i < closest.Length; i++) {
+				if (closest[i].Equals(favored)) {
+					indexOfFavored = i;
+					break;
+				}
+			}
+			
+			if (indexOfFavored != -1 && indexOfFavored <= Math.Ceiling(((double) closest.Length) / 2.0))
+				turnTo = favored;
+		}
+		
 		curD = turnTo.direction;
 		CameraAction action = new CameraAction(this, transform.position, turnTo.rotation);
 		CameraController.instance.addAction(action);
@@ -96,22 +114,29 @@ public class Location : MonoBehaviour {
 		return null;
 	}
 	
-	private Direction getNearestDirection(Quaternion rot) {
+	private Direction[] getNearestDirections(Quaternion rot) {
 		Component[] dirs = GetComponents(typeof(Direction));
 		
-		Direction min = (Direction) dirs[0];
-		float minAngle = angleDiff(min.rotation, rot);
+		Direction[] ret = new Direction[dirs.Length];
 		
-		for (int i = 1; i < dirs.Length; i++) {
+		for (int i = 0; i < dirs.Length; i++) {
 			Direction cur = (Direction) dirs[i];
 			float ang = angleDiff(cur.rotation, rot);
-			if (ang < minAngle) {
-				minAngle = ang;
-				min = cur;
+			
+			int j = 0;
+			while (ret[j] != null && ang >= angleDiff(ret[j].rotation, rot)) {
+				j++;
+			}
+			
+			while (cur != null) {
+				Direction temp = ret[j];
+				ret[j] = cur;
+				cur = temp;
+				j++;
 			}
 		}
 		
-		return min;
+		return ret;
 	}
 	
 	private float angleDiff(Quaternion q1, Quaternion q2) {
