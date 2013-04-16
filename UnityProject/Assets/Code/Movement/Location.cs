@@ -61,8 +61,15 @@ public class Location : MonoBehaviour {
 	}
 	
 	public void activate() {
+		if (activeLocation != null)
+			activeLocation.deactivate();
+		
 		activeLocation = this;
-		GeneralRoomFeaturesScript.debugText = this.gameObject.name;
+		this.collider.enabled = false;
+	}
+	
+	public void deactivate() {
+		this.collider.enabled = true;
 	}
 	
 	public void turnLeft() {

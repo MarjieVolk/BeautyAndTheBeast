@@ -36,6 +36,7 @@ public class ZoomLocation: MonoBehaviour
 		if (parent.Equals(Location.activeLocation)) {
 			CameraController.instance.moveTo(null, transform.position, rotation);
 			isActive = true;
+			this.collider.enabled = false;
 			Location.activeLocation = null;
 		}
 	}
@@ -45,6 +46,7 @@ public class ZoomLocation: MonoBehaviour
 			if (GUI.Button(new Rect((Screen.width - BUTTON_WIDTH) / 2.0f, BUTTON_MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Back")) {
 				parent.moveHere();
 				isActive = false;
+				this.collider.enabled = true;
 			}
 		}
 	}

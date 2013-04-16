@@ -8,7 +8,7 @@ namespace AssemblyCSharp
 	{
 		private static Dictionary<String, ItemData> items = new Dictionary<String, ItemData>();
 		
-		public static void registerItem(String id, Texture invTexture, Transform model) {
+		public static void registerItem(String id, Texture invTexture, GameObject model) {
 			if (items.ContainsKey(id))
 				throw new Exception("Cannot have two items with the same id (" + id + ")");
 			
@@ -22,7 +22,7 @@ namespace AssemblyCSharp
 			return items[id].invTexture;
 		}
 		
-		public static Transform getItemModel(String id) {
+		public static GameObject getItemModel(String id) {
 			if (!items.ContainsKey(id))
 				throw new Exception("No item with id \"" + id + "\"");
 			
@@ -31,20 +31,20 @@ namespace AssemblyCSharp
 		
 		static Item() {
 			registerItem("key.water", Resources.Load("Inventory Textures/Key - Water") as Texture,
-				Resources.Load("Models/Key - Water") as Transform);
+				Resources.Load("Models/Key - Water") as GameObject);
 			registerItem("key.fire", Resources.Load("Inventory Textures/Key - Fire") as Texture,
-				Resources.Load("Models/Key - Fire") as Transform);
+				Resources.Load("Models/Key - Fire") as GameObject);
 			registerItem("key.earth", Resources.Load("Inventory Textures/Key - Earth") as Texture,
-				Resources.Load("Models/Key - Earth") as Transform);
+				Resources.Load("Models/Key - Earth") as GameObject);
 			registerItem("key.air", Resources.Load("Inventory Textures/Key - Air") as Texture,
-				Resources.Load("Models/Key - Air") as Transform);
+				Resources.Load("Models/Key - Air") as GameObject);
 		}
 		
 		private class ItemData {
 			public readonly Texture invTexture;
-			public readonly Transform model;
+			public readonly GameObject model;
 			
-			public ItemData(Texture invTexture, Transform model) {
+			public ItemData(Texture invTexture, GameObject model) {
 				this.invTexture = invTexture;
 				this.model = model;
 			}

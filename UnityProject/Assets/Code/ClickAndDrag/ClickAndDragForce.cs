@@ -56,8 +56,6 @@ public class ClickAndDragForce: ClickAndDrag
 		Vector3 force = new Vector3(fX, fY, fZ);
 		this.constantForce.force = force;
 		
-		GeneralRoomFeaturesScript.debugText = "DRAG: " + force;
-		
 		//Populate event
 		toPopulate.putParam(PARAM_FORCE, force);
 	}
@@ -66,8 +64,6 @@ public class ClickAndDragForce: ClickAndDrag
 		if ((snapTo[snapToIndex] - transform.localPosition).magnitude <= 0.001) {
 			constantForce.force = Vector3.zero;
 			transform.position = snapTo[snapToIndex];
-			
-			GeneralRoomFeaturesScript.debugText = "DONE";
 			return true;
 		}
 		

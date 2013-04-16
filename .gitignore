@@ -46,3 +46,5 @@ UnityProject/obj/*
 /UnityProject/ProjectSettings/EditorBuildSettings.asset
 /UnityProject/Assets/saves
 /UnityProject/Assets/saves.meta
+/Game_Data/saves/game.xml
+/Game_Data/saves/game.xml

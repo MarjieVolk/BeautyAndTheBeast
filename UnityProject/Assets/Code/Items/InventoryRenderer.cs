@@ -5,6 +5,10 @@ using System;
 
 public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	
+	private static readonly float BUTTON_WIDTH = 50;
+	private static readonly float BUTTON_HEIGHT = 30;
+	private static readonly float BUTTON_MARGIN = 20;
+	
 	public static readonly String ACTIVE_ITEM_GAME_STATE_KEY = "inventory.active";
 	
 	public Texture inventoryBackground;
@@ -14,6 +18,13 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	private string[] ids = new string[GameState.INVENTORY_SIZE];
 	private Rect backgroundRect;
 	private int activeItem = -1;
+	
+	private GameObject closeUp = null;
+	private int lastClicked = -1;
+	private float timeOfLastClick = -1;
+	
+	private float xAxis = 0;
+	private float yAxis = 0;
 	
 	void Start () {
 		GameState.getInstance().addListener(this);
@@ -27,6 +38,14 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 		float y = Screen.height - height;
 		
 		backgroundRect = new Rect(x, y, width, height);
+	}
+	
+	void Update() {
+		if (Input.GetMouseButton(0) && closeUp != null) {
+			xAxis += Input.GetAxis("Mouse Y") * 15;
+			yAxis -= Input.GetAxis("Mouse X") * 15;
+			closeUp.transform.rotation = Quaternion.Euler(xAxis, yAxis, 0);
+		}
 	}
 	
 	void OnGUI() {
@@ -62,19 +81,52 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 			
 			GUI.DrawTexture(new Rect(boundX, boundY, boundWidth, boundHeight), texture);
 			
-			// Listen for activation
-			if (GUI.Button(itemRect, "", GUIStyle.none)) {
-				activeItem = (activeItem == i) ? -1 : i;
+			// Listen for mouse events
+			if (GUI.Button(itemRect, "", GUIStyle.none)) {				
+				if (lastClicked == i && Time.time - timeOfLastClick < 0.3f) {
+					// Double click: open item close-up
+					activeItem = i;
+					if (closeUp != null) {
+						Destroy(closeUp);
+						closeUp = null;
+					}
+					
+					Transform camera = CameraController.instance.camera.transform;
+					Vector3 pos = camera.position + (camera.forward * 0.4f);
+					closeUp = (GameObject) Instantiate(Item.getItemModel(ids[i]), pos, camera.rotation);
+					xAxis = closeUp.transform.rotation.eulerAngles.x;
+					yAxis = closeUp.transform.rotation.eulerAngles.y;
+					
+					GeneralRoomFeaturesScript.allowTurning = false;
+					
+				} else {
+					// Single click: activate/deactivate item
+					activeItem = (activeItem == i) ? -1 : i;
+				}
+				
+				lastClicked = i;
+				timeOfLastClick = Time.time;
 			}
 		}
 		
-		// Do special thing for active one
+		// Highlight active item in inventory
 		if (activeItem >= 0 && activeItem < textures.Length && textures[activeItem] != null) {
 			GUI.Box(getBounds(activeItem), "");
 			GameState.getInstance().put(ACTIVE_ITEM_GAME_STATE_KEY, ids[activeItem]);
 		} else {
 			activeItem = -1;
 			GameState.getInstance().put(ACTIVE_ITEM_GAME_STATE_KEY, null);
+		}
+		
+		// If showing close-up, show back button & prevent all other interaction
+		if (closeUp != null) {
+			if (GUI.Button(new Rect((Screen.width - BUTTON_WIDTH) / 2.0f, BUTTON_MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Back")) {
+				GeneralRoomFeaturesScript.allowTurning = true;
+				Destroy(closeUp);
+				closeUp = null;
+			} else {
+				GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "", GUIStyle.none);
+			}
 		}
 	}
 	

@@ -57,22 +57,6 @@ public class CameraController : MonoBehaviour {
 				GameState.getInstance().setCameraRotation(transform.rotation);
 			}
 		}
-		
-//		if ((!isMoving || movementControl.percentDone(Time.time) > MOVE_THRESHOLD)
-//			&& Input.GetMouseButtonDown(0) && room.clicked(Input.mousePosition)) {
-//			
-//			movementControl = new SineMovement(transform.position, room.getPosition(),
-//				transform.rotation, room.getRotation());
-//			isMoving = true;
-//		}
-//		
-//		if (isMoving) {
-//			if (movementControl.isDone(Time.time)) {
-//				isMoving = false;
-//			} else {
-//				movementControl.update(transform);
-//			}
-//		}
 	}
 	
 	public void addAction(CameraAction action) {
