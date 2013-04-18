@@ -25,7 +25,10 @@ public class ClickAndDragTranslateEditor : Editor
 			scriptTarget.minZ == 0.0f &&
 			scriptTarget.maxZ == 0.0f) {
 			// this has never been edited
-			return;
+			
+			scriptTarget.minX = scriptTarget.maxX = scriptTarget.transform.localPosition.x;
+			scriptTarget.minY = scriptTarget.maxY = scriptTarget.transform.localPosition.y;
+			scriptTarget.minZ = scriptTarget.maxZ = scriptTarget.transform.localPosition.z;
 		}
 		
 		if (scriptTarget.snapTo == null)
@@ -41,8 +44,8 @@ public class ClickAndDragTranslateEditor : Editor
 	
 	public override void OnInspectorGUI() {
 		scriptTarget.gameStateKey = EditorGUILayout.TextField("Game State Key", scriptTarget.gameStateKey);
-		
 		scriptTarget.isActive = EditorGUILayout.Toggle("Active", scriptTarget.isActive);
+		scriptTarget.maxDistance = EditorGUILayout.FloatField("Max Interaction Distane", scriptTarget.maxDistance);
 		
 		snapOpen = EditorGUILayout.Foldout(snapOpen, "Snap points");
 		if (snapOpen) {
