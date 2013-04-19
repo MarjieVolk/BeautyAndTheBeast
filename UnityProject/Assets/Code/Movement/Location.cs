@@ -23,13 +23,20 @@ public class Location : MonoBehaviour {
 	}
 	
 	void OnMouseUpAsButton() {		
-		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
-		if (distance <= maxDistance)
-			moveHere();
+		tryMoveHere();
 	}
 	
 	void OnDrawGizmos() {
 		Gizmos.DrawIcon(transform.position, "LocationGizmo.png");
+	}
+	
+	public bool tryMoveHere() {
+		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
+		bool canMove = ZoomLocation.activeLocation == null && distance <= maxDistance &&
+			(activeLocation == null || distance < activeLocation.maxDistance);
+		if (canMove)
+			moveHere();
+		return canMove;
 	}
 	
 	public void moveHere() {

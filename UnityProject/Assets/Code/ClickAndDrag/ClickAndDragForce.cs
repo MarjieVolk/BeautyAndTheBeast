@@ -75,8 +75,6 @@ public class ClickAndDragForce: ClickAndDrag
 			force = force + fCurrent;
 		}
 		
-		GeneralRoomFeaturesScript.debugText = "SNAP: " + force;
-		
 		this.constantForce.force = force;
 		return false;
 	}

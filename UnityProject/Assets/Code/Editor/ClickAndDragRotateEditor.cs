@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using AssemblyCSharp;
 
-[CanEditMultipleObjects]
 [CustomEditor(typeof(ClickAndDragRotate))]
 public class ClickAndDragRotateEditor: Editor
 {
@@ -37,16 +36,16 @@ public class ClickAndDragRotateEditor: Editor
 		
 		updateEditorSnapPoints();
 		
-		Vector3 r = round(scriptTarget.transform.localRotation.eulerAngles);
-		allowX = !(r.x == scriptTarget.minX && r.x == scriptTarget.maxX);
-		allowY = !(r.y == scriptTarget.minY && r.y == scriptTarget.maxY);
-		allowZ = !(r.z == scriptTarget.minZ && r.z == scriptTarget.maxZ);
+		allowX = scriptTarget.dXPerDMouseX != 0 || scriptTarget.dXPerDMouseY != 0;
+		allowY = scriptTarget.dYPerDMouseX != 0 || scriptTarget.dYPerDMouseY != 0;
+		allowZ = scriptTarget.dZPerDMouseX != 0 || scriptTarget.dZPerDMouseY != 0;
 	}
 	
 	public override void OnInspectorGUI() {
 		scriptTarget.gameStateKey = EditorGUILayout.TextField("Game State Key", scriptTarget.gameStateKey);
 		scriptTarget.isActive = EditorGUILayout.Toggle("Active", scriptTarget.isActive);
 		scriptTarget.maxDistance = EditorGUILayout.FloatField("Max Interaction Distane", scriptTarget.maxDistance);
+		scriptTarget.rotateSound = (AudioClip) EditorGUILayout.ObjectField("Sound Effect", scriptTarget.rotateSound, typeof(AudioClip), true);
 		
 		snapOpen = EditorGUILayout.Foldout(snapOpen, "Snap points");
 		if (snapOpen) {

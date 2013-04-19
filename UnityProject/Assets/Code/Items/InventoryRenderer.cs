@@ -3,6 +3,7 @@ using System.Collections;
 using AssemblyCSharp;
 using System;
 
+[RequireComponent(typeof(AudioSource))]
 public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	
 	private static readonly float BACK_BUTTON_WIDTH = 50;
@@ -72,11 +73,8 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 		mouseP.y = Screen.height - mouseP.y;
 		if (backgroundRect.Contains(mouseP)) {
 			isOpen = true;
-			GeneralRoomFeaturesScript.debugText = "hover";
 			timeOfLastHover = Time.time;
-		} else {
-			GeneralRoomFeaturesScript.debugText = "not hover";
-			
+		} else {			
 			if ((Time.time - timeOfLastHover) >= TIME_BEFORE_CLOSE && activeItem == -1)
 				isOpen = false;
 		}
@@ -144,7 +142,9 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 			GUI.DrawTexture(new Rect(boundX, boundY, boundWidth, boundHeight), texture);
 			
 			// Listen for mouse events
-			if (GUI.Button(getBounds(i), "", GUIStyle.none)) {				
+			if (GUI.Button(getBounds(i), "", GUIStyle.none)) {	
+				audio.Play();
+				
 				if (lastClicked == i && Time.time - timeOfLastClick < 0.3f) {
 					// Double click: open item close-up
 					activeItem = i;
