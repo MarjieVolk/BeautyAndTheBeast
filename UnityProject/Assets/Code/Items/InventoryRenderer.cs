@@ -5,17 +5,25 @@ using System;
 
 public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	
-	private static readonly float BUTTON_WIDTH = 50;
-	private static readonly float BUTTON_HEIGHT = 30;
-	private static readonly float BUTTON_MARGIN = 20;
+	private static readonly float BACK_BUTTON_WIDTH = 50;
+	private static readonly float BACK_BUTTON_HEIGHT = 30;
+	private static readonly float BACK_BUTTON_MARGIN = 20;
+	
+	private static readonly float OPEN_SPEED = 320;
+	private static readonly float TIME_BEFORE_CLOSE = 0.3f;
 	
 	public static readonly String ACTIVE_ITEM_GAME_STATE_KEY = "inventory.active";
 	
 	public Texture inventoryBackground;
+	public Texture selectedImage;
 	public float percentScreenHeight = 0.13f;
+	public float topMargin = 0;
+	public float leftMargin = 0;
+	public float rightMargin = 0;
+	public float slotMargin = 0;
 	
-	private Texture[] textures = new Texture[GameState.INVENTORY_SIZE];
-	private string[] ids = new string[GameState.INVENTORY_SIZE];
+	private Texture[] textures;
+	private string[] ids;
 	private Rect backgroundRect;
 	private int activeItem = -1;
 	
@@ -26,18 +34,31 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	private float xAxis = 0;
 	private float yAxis = 0;
 	
+	private bool isOpen = false;
+	private float openY;
+	private float closedY;
+	private float timeOfLastHover = 0;
+	
 	void Start () {
 		GameState.getInstance().addListener(this);
 		
 		ids = (String[]) GameState.getInstance().getInventory();
 		textures = getTextures(ids);
 		
-		float height = Screen.height * percentScreenHeight;
-		float width = inventoryBackground.width * (height / inventoryBackground.height);
-		float x = (Screen.width - width) / 2;
-		float y = Screen.height - height;
+		float scale = (Screen.height * percentScreenHeight) / (inventoryBackground.height - topMargin);
 		
-		backgroundRect = new Rect(x, y, width, height);
+		float height = inventoryBackground.height * scale;
+		float width = inventoryBackground.width * scale;
+		float x = (Screen.width - width) / 2;
+		
+		topMargin *= scale;
+		leftMargin *= scale;
+		rightMargin *= scale;
+		
+		openY = Screen.height - height;
+		closedY = Screen.height - topMargin;
+		
+		backgroundRect = new Rect(x, closedY, width, height);
 	}
 	
 	void Update() {
@@ -46,10 +67,51 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 			yAxis -= Input.GetAxis("Mouse X") * 15;
 			closeUp.transform.rotation = Quaternion.Euler(xAxis, yAxis, 0);
 		}
+		
+		Vector3 mouseP = Input.mousePosition;
+		mouseP.y = Screen.height - mouseP.y;
+		if (backgroundRect.Contains(mouseP)) {
+			isOpen = true;
+			GeneralRoomFeaturesScript.debugText = "hover";
+			timeOfLastHover = Time.time;
+		} else {
+			GeneralRoomFeaturesScript.debugText = "not hover";
+			
+			if ((Time.time - timeOfLastHover) >= TIME_BEFORE_CLOSE && activeItem == -1)
+				isOpen = false;
+		}
+		
+		if (isOpen) {
+			if (backgroundRect.y > openY) {
+				// It should be open, but its not all the way out yet -- keep pulling it out
+				backgroundRect.y = backgroundRect.y - OPEN_SPEED * Time.deltaTime;
+			}
+			
+			if (backgroundRect.y < openY)
+				backgroundRect.y = openY;
+			
+		} else {
+			if (backgroundRect.y < closedY) {
+				// It should be closed, but its not all the way back yet -- keep pushing it in
+				backgroundRect.y = backgroundRect.y + OPEN_SPEED * Time.deltaTime;
+			}
+			
+			if (backgroundRect.y > closedY)
+				backgroundRect.y = closedY;
+		}
 	}
 	
 	void OnGUI() {
 		GUI.DrawTexture(backgroundRect, inventoryBackground);
+		
+		// Highlight active item in inventory
+		if (activeItem >= 0 && activeItem < textures.Length && textures[activeItem] != null) {
+			GUI.DrawTexture(getBounds(activeItem), selectedImage);
+			GameState.getInstance().put(ACTIVE_ITEM_GAME_STATE_KEY, ids[activeItem]);
+		} else {
+			activeItem = -1;
+			GameState.getInstance().put(ACTIVE_ITEM_GAME_STATE_KEY, null);
+		}
 		
 		// For each item in inventory
 		for (int i = 0; i < textures.Length; i++) {
@@ -60,7 +122,7 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 			// Draw texture...
 			
 			// Find item slot bounds
-			Rect itemRect = getBounds(i);
+			Rect itemRect = getBoundsMinusMargin(i);
 			float boundWidth = itemRect.width;
 			float boundX = itemRect.x;
 			float boundY = itemRect.y;
@@ -82,7 +144,7 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 			GUI.DrawTexture(new Rect(boundX, boundY, boundWidth, boundHeight), texture);
 			
 			// Listen for mouse events
-			if (GUI.Button(itemRect, "", GUIStyle.none)) {				
+			if (GUI.Button(getBounds(i), "", GUIStyle.none)) {				
 				if (lastClicked == i && Time.time - timeOfLastClick < 0.3f) {
 					// Double click: open item close-up
 					activeItem = i;
@@ -109,18 +171,9 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 			}
 		}
 		
-		// Highlight active item in inventory
-		if (activeItem >= 0 && activeItem < textures.Length && textures[activeItem] != null) {
-			GUI.Box(getBounds(activeItem), "");
-			GameState.getInstance().put(ACTIVE_ITEM_GAME_STATE_KEY, ids[activeItem]);
-		} else {
-			activeItem = -1;
-			GameState.getInstance().put(ACTIVE_ITEM_GAME_STATE_KEY, null);
-		}
-		
 		// If showing close-up, show back button & prevent all other interaction
 		if (closeUp != null) {
-			if (GUI.Button(new Rect((Screen.width - BUTTON_WIDTH) / 2.0f, BUTTON_MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT), "Back")) {
+			if (GUI.Button(new Rect((Screen.width - BACK_BUTTON_WIDTH) / 2.0f, BACK_BUTTON_MARGIN, BACK_BUTTON_WIDTH, BACK_BUTTON_HEIGHT), "Back")) {
 				GeneralRoomFeaturesScript.allowTurning = true;
 				Destroy(closeUp);
 				closeUp = null;
@@ -131,10 +184,19 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	}
 	
 	private Rect getBounds(int i) {
-		float width = backgroundRect.width / textures.Length;
-		float x = backgroundRect.x + (i * width);
-		float y = backgroundRect.y;
-		float height = backgroundRect.height;
+		float width = (backgroundRect.width - leftMargin - rightMargin) / textures.Length;
+		float x = backgroundRect.x + leftMargin + (i * width);
+		float y = backgroundRect.y + topMargin;
+		float height = backgroundRect.height - topMargin;
+		return new Rect(x, y, width, height);
+	}
+	
+	private Rect getBoundsMinusMargin(int i) {
+		Rect r = getBounds(i);
+		float x = r.x + slotMargin;
+		float y = r.y + slotMargin;
+		float width = r.width - (slotMargin * 2);
+		float height = r.height - (slotMargin * 2);
 		return new Rect(x, y, width, height);
 	}
 	
@@ -142,6 +204,8 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 		if (stateKey.Equals(GameState.invKey)) {
 			ids = (string[]) newValue;
 			textures = getTextures(ids);
+			isOpen = true;
+			timeOfLastHover = Time.time + 0.5f;
 		}
 	}
 	
