@@ -31,12 +31,18 @@ public class Location : MonoBehaviour {
 	}
 	
 	public bool tryMoveHere() {
-		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
-		bool canMove = ZoomLocation.activeLocation == null && distance <= maxDistance &&
-			(activeLocation == null || distance < activeLocation.maxDistance);
+		bool canMove = canMoveHere();
 		if (canMove)
 			moveHere();
 		return canMove;
+	}
+	
+	public bool canMoveHere() {
+//		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
+//		return ZoomLocation.activeLocation == null && distance <= maxDistance &&
+//			(activeLocation == null || distance < activeLocation.maxDistance);
+		return ZoomLocation.activeLocation == null &&
+			(activeLocation == null || LocationGraph.conntected(this, activeLocation));
 	}
 	
 	public void moveHere() {

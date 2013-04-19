@@ -33,10 +33,12 @@ public class ZoomLocation: MonoBehaviour
 	}
 	
 	void OnMouseUpAsButton() {
-		if (parent.Equals(Location.activeLocation) || parent.tryMoveHere()) {
+		if (parent.Equals(Location.activeLocation) || parent.canMoveHere()) {
 			CameraController.instance.moveTo(null, transform.position, rotation);
 			activeLocation = this;
 			this.collider.enabled = false;
+			
+			Location.activeLocation.deactivate();
 			Location.activeLocation = null;
 		}
 	}
