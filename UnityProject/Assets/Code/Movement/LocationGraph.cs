@@ -50,6 +50,14 @@ namespace AssemblyCSharp
 			}
 		}
 		
+		void OnDrawGizmosSelected() {
+			Component[] edges = gameObject.GetComponents(typeof(Edge));
+			foreach (Component c in edges) {
+				Edge e = (Edge) c;
+				Gizmos.DrawLine(e.one.transform.position, e.two.transform.position);
+			}
+		}
+		
 		private bool connected(Location one, Location two) {
 			int indexOne = locations.IndexOf(one);
 			int indexTwo = locations.IndexOf(two);
