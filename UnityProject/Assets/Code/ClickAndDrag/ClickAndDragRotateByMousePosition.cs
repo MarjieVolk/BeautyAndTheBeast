@@ -11,10 +11,7 @@ public class ClickAndDragRotateByMousePosition : ClickAndDragRotate
 	public float dZPerDMouseX = 0;
 	public float dZPerDMouseY = 0;
 	
-	private Vector3 dragStartRotation;
-	
 	protected override void initDrag(Vector3 dragStartMousePosition) {
-		dragStartRotation = transform.localRotation.eulerAngles;
 		playSound();
 	}
 	
