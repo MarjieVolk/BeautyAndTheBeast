@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour {
 		try {
 			transform.position = GameState.getInstance().getCameraPosition();
 			transform.rotation = GameState.getInstance().getCameraRotation();
-		} catch (Exception e) {
+		} catch {
 			GameState.getInstance().setCameraPosition(transform.position);
 			GameState.getInstance().setCameraRotation(transform.rotation);
 		}

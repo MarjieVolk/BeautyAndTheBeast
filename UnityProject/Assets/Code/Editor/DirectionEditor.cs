@@ -35,6 +35,9 @@ public class DirectionEditor: Editor
 		}
 		
 		scriptTarget.rotation = toQuaternion(rotationEuler);
+		
+        if (GUI.changed)
+            EditorUtility.SetDirty(target);
 	}
 	
 	public static Vector3 toVector3(Quaternion q) {

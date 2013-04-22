@@ -11,12 +11,12 @@ Platform assembly: F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\
 Loading F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.039 seconds
+- Completed reload, in  0.043 seconds
 desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\Managed\System.Xml.dll (this message is harmless)
+Platform assembly: F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\Managed\System.dll (this message is harmless)
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 2535. Operation took 2.688545 ms.
-Platform assembly: F:\Users\Marjie\Documents\GitHub\BeautyAndTheBeast\Game_Data\Managed\System.dll (this message is harmless)
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 2726. Operation took 2.691966 ms.

@@ -38,10 +38,7 @@ namespace AssemblyCSharp
 				}
 			}
 			
-			foreach (Edge edge in edges) {
-				Location one = edge.one;
-				Location two = edge.two;
-				
+			foreach (Edge edge in edges) {				
 				int indexOne = locations.IndexOf(edge.one);
 				int indexTwo = locations.IndexOf(edge.two);
 				

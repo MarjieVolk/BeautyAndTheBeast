@@ -6,13 +6,14 @@ using UnityEngine;
 [CustomEditor(typeof(ClickAndDragTranslate))]
 public class ClickAndDragTranslateEditor : Editor
 {
+	private static bool snapOpen = false;
+	
 	private ClickAndDragTranslate scriptTarget;
 	
 	private bool allowX = false;
 	private bool allowY = false;
 	private bool allowZ = false;
 	
-	private bool snapOpen = false;
 	private Vector3[] snapPoints;
 	
 	void OnEnable() {
@@ -46,6 +47,7 @@ public class ClickAndDragTranslateEditor : Editor
 		scriptTarget.gameStateKey = EditorGUILayout.TextField("Game State Key", scriptTarget.gameStateKey);
 		scriptTarget.isActive = EditorGUILayout.Toggle("Active", scriptTarget.isActive);
 		scriptTarget.maxDistance = EditorGUILayout.FloatField("Max Interaction Distane", scriptTarget.maxDistance);
+		scriptTarget.minDistance = EditorGUILayout.FloatField("Min Interaction Distane", scriptTarget.minDistance);
 		
 		snapOpen = EditorGUILayout.Foldout(snapOpen, "Snap points");
 		if (snapOpen) {

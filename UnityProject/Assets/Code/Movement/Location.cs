@@ -8,15 +8,19 @@ public class Location : MonoBehaviour {
 	private static readonly float SNAP_THRESHOLD = 0.5f;
 	public static Location activeLocation;
 	
-	public float maxDistance = 7;
 	public Boolean useFavoredDirection = false;
 	public DirectionType favoredDirection = DirectionType.NORTH;
+	public Vector3 offset;
 	
 	private DirectionType curD = DirectionType.NORTH;
 	
 	void Start () {		
+		init();
+	}
+	
+	protected void init() {
 		Vector3 cameraPosition = Camera.mainCamera.transform.position;
-		bool isActive = (cameraPosition - transform.position).magnitude <= SNAP_THRESHOLD;
+		bool isActive = (cameraPosition - (transform.position + offset)).magnitude <= SNAP_THRESHOLD;
 		if (isActive) {
 			moveHere();
 		}
@@ -37,15 +41,11 @@ public class Location : MonoBehaviour {
 		return canMove;
 	}
 	
-	public bool canMoveHere() {
-//		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
-//		return ZoomLocation.activeLocation == null && distance <= maxDistance &&
-//			(activeLocation == null || distance < activeLocation.maxDistance);
-		return ZoomLocation.activeLocation == null &&
-			(activeLocation == null || LocationGraph.conntected(this, activeLocation));
+	public virtual bool canMoveHere() {
+		return activeLocation == null || (!(activeLocation is ZoomLocation) && LocationGraph.conntected(this, activeLocation));
 	}
 	
-	public void moveHere() {
+	public virtual void moveHere() {
 		Direction favored = null;
 		if (useFavoredDirection)
 			favored = getAt(favoredDirection);
@@ -69,11 +69,11 @@ public class Location : MonoBehaviour {
 		}
 		
 		curD = turnTo.direction;
-		CameraAction action = new CameraAction(this, transform.position, turnTo.rotation);
+		CameraAction action = new CameraAction(this, transform.position + offset, turnTo.rotation);
 		CameraController.instance.addAction(action);
 	}
 	
-	public void activate() {
+	public virtual void activate() {
 		if (activeLocation != null)
 			activeLocation.deactivate();
 		
@@ -81,7 +81,7 @@ public class Location : MonoBehaviour {
 		this.collider.enabled = false;
 	}
 	
-	public void deactivate() {
+	public virtual void deactivate() {
 		this.collider.enabled = true;
 	}
 	

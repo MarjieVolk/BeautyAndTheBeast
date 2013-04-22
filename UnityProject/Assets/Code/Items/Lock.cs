@@ -46,7 +46,7 @@ namespace AssemblyCSharp
 			}	
 		}
 		
-		private string getKey() {
+		public string getKey() {
 			return "lock." + keyId + (gameStateKey == null ? "" : "." + gameStateKey);
 		}
 	}

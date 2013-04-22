@@ -61,7 +61,7 @@ namespace AssemblyCSharp
 	/// Moves the camera linearly at a constant speed.
 	/// </summary>
 	public class ConstantTimeMovement : PercentBasedMovement {
-		private static readonly float MOVE_TIME = 0.8f;
+		public static readonly float MOVE_TIME = 1.5f;
 		
 		public ConstantTimeMovement(Vector3 startPos, Quaternion startRot):
 			base (startPos, startRot) {}
@@ -95,15 +95,12 @@ namespace AssemblyCSharp
 	/// Moves the camera linearly, but at a speed that starts at zero, increases to a calculated
 	/// constant, and then decreases to zero again, according to the sine function
 	/// </summary>
-	public class SineMovement : ConstantSpeedMovement {
+	public class SineMovement : ConstantTimeMovement {
 		public SineMovement(Vector3 startPos, Quaternion startRot):
 			base (startPos, startRot) {}
 		
 		override public float percentDone(float time) {
-			if (duration == 0)
-				return 1;
-			
-			float x = ((time -startTime) / duration) * 2 * (float) Math.PI;
+			float x = ((time - startTime) / MOVE_TIME) * 2 * (float) Math.PI;
 			return (x - (float) Math.Sin(x)) / (2 * (float) Math.PI);
 		}
 	}

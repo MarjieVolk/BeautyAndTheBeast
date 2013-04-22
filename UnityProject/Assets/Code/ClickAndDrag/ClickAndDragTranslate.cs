@@ -97,7 +97,7 @@ public class ClickAndDragTranslate : ClickAndDrag
 		Vector3 desiredNewP;
 		bool retVal;
 		
-		if (v.magnitude * Time.deltaTime + 0.05 >= direction.magnitude) {
+		if (v.magnitude * Time.deltaTime + 0.001 >= direction.magnitude) {
 			desiredNewP = snapTo[snapToIndex];
 			retVal = true;
 		} else {

@@ -9,6 +9,7 @@ public abstract class ClickAndDrag : Activatable {
 	
 	public String gameStateKey;
 	public float maxDistance = 3;
+	public float minDistance = 0;
 	public bool isActive = true; // Right now isActive determines only whether main drag will occur. Modifiers are unaffected.
 	
 	private DragState state = DragState.NONE;
@@ -30,7 +31,7 @@ public abstract class ClickAndDrag : Activatable {
 		}
 		
 		setVisualState(snapToIndex);
-		if (gameStateKey != null && GameState.getInstance().has(gameStateKey)) {
+		if (gameStateKey != null && !GameState.getInstance().has(gameStateKey)) {
 			GameState.getInstance().put(gameStateKey, snapToIndex);
 		}
 	}
@@ -65,7 +66,7 @@ public abstract class ClickAndDrag : Activatable {
 	
 	void OnMouseOver() {
 		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
-		if (distance > maxDistance)
+		if (distance > maxDistance || distance < minDistance)
 			return;
 		
 		// If mouse is pressed

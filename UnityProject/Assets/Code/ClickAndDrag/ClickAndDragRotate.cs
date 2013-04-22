@@ -17,13 +17,6 @@ public class ClickAndDragRotate: ClickAndDrag
 	
 	public Quaternion[] snapTo;
 	
-	public float dXPerDMouseX = 0;
-	public float dXPerDMouseY = 0;
-	public float dYPerDMouseX = 0;
-	public float dYPerDMouseY = 0;
-	public float dZPerDMouseX = 0;
-	public float dZPerDMouseY = 0;
-	
 	public bool clampX;
 	public float minX;
 	public float maxX;
@@ -36,9 +29,9 @@ public class ClickAndDragRotate: ClickAndDrag
 	public float minZ;
 	public float maxZ;
 	
-	private Vector3 dragStartRotation;
+	private Vector3 dDragRotation;
 	private Quaternion snapStartRotation;
-	private float snapStartTime;
+	private float snapStartTime = 0;
 	private float snapDuration;
 	
 	private AudioSource sound = null;
@@ -56,9 +49,11 @@ public class ClickAndDragRotate: ClickAndDrag
 	}
 	
 	protected override void initDrag(Vector3 dragStartMousePosition) {
-		dragStartRotation = transform.localRotation.eulerAngles;
-		if (sound != null)
-			sound.Play();
+		Quaternion calculatedR = getDirection(dragStartMousePosition);
+		Quaternion observedR = transform.localRotation;
+		dDragRotation = observedR.eulerAngles - calculatedR.eulerAngles;
+		
+		playSound();
 	}
 	
 	protected override int initSnap() {
@@ -82,30 +77,17 @@ public class ClickAndDragRotate: ClickAndDrag
 	}
 	
 	protected override void doDrag(DragEvent toPopulate, Vector3 dragStartMousePosition, Vector3 currentMousePosition) {
-		float dMouseX = currentMousePosition.x - dragStartMousePosition.x;
-		float dMouseY = currentMousePosition.y - dragStartMousePosition.y;
-		
-		float dX = (dXPerDMouseX * dMouseX) + (dXPerDMouseY * dMouseY);
-		float dY = (dYPerDMouseX * dMouseX) + (dYPerDMouseY * dMouseY);
-		float dZ = (dZPerDMouseX * dMouseX) + (dZPerDMouseY * dMouseY);
-		
 		Quaternion oldR = transform.localRotation;
-		Vector3 newRotation = getNewRotation(dX, dY, dZ);
-		Quaternion desiredNewR = Quaternion.Euler(newRotation);
-		
+		Quaternion desiredNewR = Quaternion.Euler(getDirection(currentMousePosition).eulerAngles + dDragRotation);
 		setRotation(desiredNewR);
 		Quaternion newR = transform.localRotation;
 		
 		toPopulate.putParam(PARAM_OLD_R, oldR);
 		toPopulate.putParam(PARAM_NEW_R, newR);
 		toPopulate.putParam(PARAM_DESIRED_NEW_R, desiredNewR);
-		toPopulate.putParam(PARAM_D_ROTATION_X, dX);
-		toPopulate.putParam(PARAM_D_ROTATION_Y, dY);
-		toPopulate.putParam(PARAM_D_ROTATION_Z, dZ);
-	}
-	
-	protected virtual Vector3 getNewRotation(float dX, float dY, float dZ) {
-		return new Vector3(dragStartRotation.x + dX, dragStartRotation.y + dY, dragStartRotation.z + dZ);
+//		toPopulate.putParam(PARAM_D_ROTATION_X, dX);
+//		toPopulate.putParam(PARAM_D_ROTATION_Y, dY);
+//		toPopulate.putParam(PARAM_D_ROTATION_Z, dZ);
 	}
 	
 	protected override bool doSnap(DragEvent toPopulate, int snapToIndex) {
@@ -123,6 +105,11 @@ public class ClickAndDragRotate: ClickAndDrag
 	
 	protected override int getDefaultVal() {
 		return 0;
+	}
+	
+	protected void playSound() {
+		if (sound != null)
+			sound.Play();
 	}
 	
 	public Quaternion getClampedRotation(Quaternion rotation) {
@@ -164,9 +151,17 @@ public class ClickAndDragRotate: ClickAndDrag
 		return angle;
 	}
 	
-	private void setRotation(Quaternion rotation) {
+	protected void setRotation(Quaternion rotation) {
 		Quaternion clampedRotation = getClampedRotation(rotation);
 		transform.localRotation = clampedRotation;
 	}
+	
+	private Quaternion getDirection(Vector3 mouseP) {
+		RaycastHit hit;
+		Camera cam = CameraController.instance.camera;
+		Physics.Raycast(cam.ScreenPointToRay(mouseP), out hit);
+		Vector3 hitPoint = transform.parent == null ? hit.point : transform.parent.InverseTransformPoint(hit.point);
+		Vector3 direction = hitPoint - transform.localPosition;
+		return Quaternion.LookRotation(direction);
+	}
 }
-

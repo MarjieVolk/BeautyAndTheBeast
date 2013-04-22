@@ -31,7 +31,7 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		prevSaveTime = Time.time;
-		float turnButtonWidth = Screen.width * 0.1f;
+		float turnButtonWidth = Screen.width * 0.06f;
 		leftTurnButton = new Rect(0, 0, turnButtonWidth, Screen.height);
 		rightTurnButton = new Rect(Screen.width - turnButtonWidth, 0, turnButtonWidth, Screen.height);
 	}

@@ -46,6 +46,8 @@ public class ClickAndDragForce: ClickAndDrag
 	protected override void doDrag(DragEvent toPopulate, Vector3 dragStartMousePosition,
 		Vector3 currentMousePosition) {
 		
+		//Vector3 mouseP = CameraController.instance.camera.cameraToWorldMatrix.MultiplyPoint(currentMousePosition);
+		
 		float dMouseX = currentMousePosition.x - dragStartMousePosition.x;
 		float dMouseY = currentMousePosition.y - dragStartMousePosition.y;
 		

@@ -22,13 +22,16 @@ public class ZoomLocationEditor: Editor
 	
 	public override void OnInspectorGUI() {
 		autoParent = EditorGUILayout.Toggle("Auto-find Parent", autoParent);
-		
 		if (!autoParent) {
 			scriptTarget.parent = (Location) EditorGUILayout.ObjectField("Parent", scriptTarget.parent, typeof(Location), true);
 		}
 		
 		rotationEuler = EditorGUILayout.Vector3Field("Rotation", rotationEuler);
 		scriptTarget.rotation = Quaternion.Euler(rotationEuler);
+		scriptTarget.offset = EditorGUILayout.Vector3Field("Offset", scriptTarget.offset);
+		
+        if (GUI.changed)
+            EditorUtility.SetDirty(target);
 	}
 }
 

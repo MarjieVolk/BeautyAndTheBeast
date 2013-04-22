@@ -13,12 +13,16 @@ public class LocationEditor : Editor
 		scriptTarget = (Location) target;
 	}
 	
-	public override void OnInspectorGUI() {		
-		scriptTarget.maxDistance = EditorGUILayout.FloatField("Max Trigger Distance", scriptTarget.maxDistance);
+	public override void OnInspectorGUI() {
 		scriptTarget.useFavoredDirection = EditorGUILayout.Toggle("Use Favored Direction", scriptTarget.useFavoredDirection);
 		if (scriptTarget.useFavoredDirection) {
 			scriptTarget.favoredDirection = (DirectionType) 
 				EditorGUILayout.EnumPopup("Favored Direction", scriptTarget.favoredDirection);
 		}
+		
+		scriptTarget.offset = EditorGUILayout.Vector3Field("Offset", scriptTarget.offset);
+		
+        if (GUI.changed)
+            EditorUtility.SetDirty(target);
 	}
 }

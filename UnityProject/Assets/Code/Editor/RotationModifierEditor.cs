@@ -67,6 +67,9 @@ public class RotationModifierEditor: Editor
 			scriptTarget.dZPerDBaseY = 0;
 			scriptTarget.dZPerDBaseZ = 0;
 		}
+		
+        if (GUI.changed)
+            EditorUtility.SetDirty(target);
 	}
 }
 
