@@ -154,8 +154,11 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 					}
 					
 					Transform camera = CameraController.instance.camera.transform;
-					Vector3 pos = camera.position + (camera.forward * 0.4f);
-					closeUp = (GameObject) Instantiate(Item.getItemModel(ids[i]), pos, camera.rotation);
+					closeUp = (GameObject) Instantiate(Item.getItemModel(ids[i]), camera.position, camera.rotation);
+					Vector3 extents = closeUp.collider.bounds.extents;
+					float maxExtent = Mathf.Max(extents.x, extents.y, extents.z);
+					closeUp.transform.position = camera.position + (camera.forward * (0.1f + maxExtent));
+					
 					xAxis = closeUp.transform.rotation.eulerAngles.x;
 					yAxis = closeUp.transform.rotation.eulerAngles.y;
 					
