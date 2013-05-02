@@ -16,6 +16,9 @@ public abstract class ClickAndDrag : Activatable {
 	private Vector3 dragStartMousePos;
 	private int snapToIndex;
 	
+	private Texture2D upCursor;
+	private Texture2D downCursor;
+	
 	protected virtual void childStart() {}
 	
 	protected abstract void setVisualState(int snapToIndex);
@@ -26,6 +29,9 @@ public abstract class ClickAndDrag : Activatable {
 	protected abstract int getDefaultVal();
 	
 	void Start () {
+		upCursor = Resources.Load("Cursors/Drag") as Texture2D;
+		downCursor = Resources.Load("Cursors/Drag Down") as Texture2D;
+		
 		if (gameStateKey != null && GameState.getInstance().has(gameStateKey)) {
 			snapToIndex = (int) GameState.getInstance().get(gameStateKey);
 		} else {
@@ -41,10 +47,13 @@ public abstract class ClickAndDrag : Activatable {
 	}
 	
 	void Update () {		
-		if (!Input.GetMouseButton(0) && state == DragState.DRAG)
+		if (!Input.GetMouseButton(0) && state == DragState.DRAG) {
 			endDrag();
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		}
 		
 		if (state == DragState.DRAG) {
+			Cursor.SetCursor(downCursor, Vector2.zero, CursorMode.Auto);
 			DragEvent e = new DragEvent(DragState.DRAG);
 			
 			doDrag(e, dragStartMousePos, Input.mousePosition);
@@ -69,6 +78,12 @@ public abstract class ClickAndDrag : Activatable {
 	}
 	
 	void OnMouseOver() {
+		if (Input.GetMouseButton(0)) {
+			Cursor.SetCursor(downCursor, Vector2.zero, CursorMode.Auto);
+		} else {
+			Cursor.SetCursor(upCursor, Vector2.zero, CursorMode.Auto);
+		}
+		
 		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
 		if (distance > maxDistance || distance < minDistance)
 			return;
@@ -83,6 +98,11 @@ public abstract class ClickAndDrag : Activatable {
 			foreach (DragModifier m in modifiers())
 				m.startDrag();
 		}
+	}
+	
+	void OnMouseExit() {
+		if (state != DragState.DRAG)
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 	}
 	
 	private void endDrag() {
