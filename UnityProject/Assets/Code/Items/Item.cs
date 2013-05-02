@@ -38,6 +38,8 @@ namespace AssemblyCSharp
 				Resources.Load("Models/Key - Earth") as GameObject);
 			registerItem("key.air", Resources.Load("Inventory Textures/Key - Air") as Texture,
 				Resources.Load("Models/Key - Air") as GameObject);
+			registerItem("roseDoorKey.sun", Resources.Load("Inventory Textures/Rose Door Key - Sun") as Texture,
+				Resources.Load("Models/Rose Door Key - Sun") as GameObject);
 		}
 		
 		private class ItemData {

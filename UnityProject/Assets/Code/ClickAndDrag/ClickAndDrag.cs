@@ -16,6 +16,8 @@ public abstract class ClickAndDrag : Activatable {
 	private Vector3 dragStartMousePos;
 	private int snapToIndex;
 	
+	protected virtual void childStart() {}
+	
 	protected abstract void setVisualState(int snapToIndex);
 	protected abstract void initDrag(Vector3 dragStartMousePosition);
 	protected abstract int initSnap();
@@ -34,6 +36,8 @@ public abstract class ClickAndDrag : Activatable {
 		if (gameStateKey != null && !GameState.getInstance().has(gameStateKey)) {
 			GameState.getInstance().put(gameStateKey, snapToIndex);
 		}
+		
+		childStart();
 	}
 	
 	void Update () {		

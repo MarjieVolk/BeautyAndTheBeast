@@ -36,7 +36,7 @@ public class ClickAndDragRotate: ClickAndDrag
 	
 	private AudioSource sound = null;
 	
-	void Start() {
+	protected override void childStart() {
 		if (rotateSound != null) {
 			sound = (AudioSource) this.gameObject.AddComponent(typeof(AudioSource));
 			sound.clip = rotateSound;
