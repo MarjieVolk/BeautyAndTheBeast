@@ -6,7 +6,7 @@ using System;
 public class DrawerSoundEffects : DragModifier {
 	
 	private static readonly string DIR = "Sound Effects/Library/Desk/";
-	private static readonly float MIN_V_TRIGGER = 20;
+	private static readonly float MIN_V_TRIGGER = 7;
 	private static readonly float MIN_REST_TRIGGER = 0.2f;
 	
 	private AudioSource handleBang;

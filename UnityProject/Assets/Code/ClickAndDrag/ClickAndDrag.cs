@@ -49,11 +49,11 @@ public abstract class ClickAndDrag : Activatable {
 	void Update () {		
 		if (!Input.GetMouseButton(0) && state == DragState.DRAG) {
 			endDrag();
-			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			CursorManager.giveUpCursorFocus(this);
 		}
 		
 		if (state == DragState.DRAG) {
-			Cursor.SetCursor(downCursor, Vector2.zero, CursorMode.Auto);
+			CursorManager.takeCursorFocus(this, downCursor, Vector2.zero);
 			DragEvent e = new DragEvent(DragState.DRAG);
 			
 			doDrag(e, dragStartMousePos, Input.mousePosition);
@@ -78,15 +78,16 @@ public abstract class ClickAndDrag : Activatable {
 	}
 	
 	void OnMouseOver() {
-		if (Input.GetMouseButton(0)) {
-			Cursor.SetCursor(downCursor, Vector2.zero, CursorMode.Auto);
-		} else {
-			Cursor.SetCursor(upCursor, Vector2.zero, CursorMode.Auto);
+		if (!canStartDrag()) {
+			CursorManager.giveUpCursorFocus(this);
+			return;
 		}
 		
-		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
-		if (distance > maxDistance || distance < minDistance)
-			return;
+		if (Input.GetMouseButton(0)) {
+			CursorManager.takeCursorFocus(this, downCursor, Vector2.zero);
+		} else {
+			CursorManager.takeCursorFocus(this, upCursor, Vector2.zero);
+		}
 		
 		// If mouse is pressed
 		if (state != DragState.DRAG && Input.GetMouseButtonDown(0)) {
@@ -102,7 +103,12 @@ public abstract class ClickAndDrag : Activatable {
 	
 	void OnMouseExit() {
 		if (state != DragState.DRAG)
-			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			CursorManager.giveUpCursorFocus(this);
+	}
+	
+	private bool canStartDrag() {
+		float distance = (Camera.mainCamera.transform.position - transform.position).magnitude;
+		return distance <= maxDistance && distance >= minDistance;
 	}
 	
 	private void endDrag() {

@@ -10,6 +10,7 @@ public class ClickToPickUp : MonoBehaviour {
 	
 	private AudioSource pickUpSound;
 	private Texture2D cursor;
+	private Vector2 hotSpot;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,7 @@ public class ClickToPickUp : MonoBehaviour {
 		pickUpSound.clip = Resources.Load("Sound Effects/Pick Up") as AudioClip;
 		
 		cursor = Resources.Load("Cursors/Tap") as Texture2D;
+		hotSpot = new Vector2(6, 1);
 	}
 	
 	// Update is called once per frame
@@ -33,11 +35,11 @@ public class ClickToPickUp : MonoBehaviour {
 	}
 	
 	void OnMouseEnter() {
-		Cursor.SetCursor(cursor, new Vector2(6, 1), CursorMode.Auto);
+		CursorManager.takeCursorFocus(this, cursor, hotSpot);
 	}
 	
 	void OnMouseExit() {
-		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		CursorManager.giveUpCursorFocus(this);
 	}
 	
 	void OnMouseUpAsButton() {
@@ -46,6 +48,7 @@ public class ClickToPickUp : MonoBehaviour {
 		
 		pickUpSound.Play();
 		
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 		Destroy(transform.gameObject);
 	}
 	

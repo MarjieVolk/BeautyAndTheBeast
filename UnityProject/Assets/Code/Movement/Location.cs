@@ -8,14 +8,23 @@ public class Location : MonoBehaviour {
 	private static readonly float SNAP_THRESHOLD = 0.5f;
 	public static Location activeLocation;
 	
+	private static Texture2D cursor = null;
+	private static Vector2 hotSpot;
+	
 	public Boolean useFavoredDirection = false;
 	public DirectionType favoredDirection = DirectionType.NORTH;
 	public Vector3 offset;
 	
 	private DirectionType curD = DirectionType.NORTH;
 	
+	
 	void Start () {		
 		init();
+		
+		if (cursor == null) {
+			cursor = Resources.Load("Cursors/Move") as Texture2D;
+			hotSpot = new Vector2(9, 0);
+		}
 	}
 	
 	protected void init() {
@@ -28,6 +37,15 @@ public class Location : MonoBehaviour {
 	
 	void OnMouseUpAsButton() {		
 		tryMoveHere();
+	}
+	
+	void OnMouseEnter() {
+		if (canMoveHere())
+			CursorManager.takeCursorFocus(this, cursor, hotSpot);
+	}
+	
+	void OnMouseExit() {
+		CursorManager.giveUpCursorFocus(this);
 	}
 	
 	void OnDrawGizmos() {

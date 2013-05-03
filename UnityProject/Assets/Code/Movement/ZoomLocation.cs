@@ -1,11 +1,15 @@
 using System;
 using UnityEngine;
+using AssemblyCSharp;
 
 public class ZoomLocation: Location
 {
 	private static readonly float BUTTON_WIDTH = 50;
 	private static readonly float BUTTON_HEIGHT = 30;
 	private static readonly float BUTTON_MARGIN = 20;
+	
+	private static Texture2D cursor = null;
+	private static Vector2 hotSpot;
 	
 	public Location parent = null;
 	public Quaternion rotation;
@@ -32,7 +36,21 @@ public class ZoomLocation: Location
 			parent = closest;
 		}
 		
+		if (cursor == null) {
+			cursor = Resources.Load("Cursors/Zoom") as Texture2D;
+			hotSpot = new Vector2(9, 0);
+		}
+		
 		init();
+	}
+	
+	void OnMouseEnter() {
+		if (canMoveHere())
+			CursorManager.takeCursorFocus(this, cursor, hotSpot);
+	}
+	
+	void OnMouseExit() {
+		CursorManager.giveUpCursorFocus(this);
 	}
 	
 	public override void moveHere() {
@@ -45,11 +63,13 @@ public class ZoomLocation: Location
 	
 	public override void activate() {
 		base.activate();
+		GeneralRoomFeaturesScript.allowTurning = false;
 		parent.collider.enabled = false;
 	}
 	
 	public override void deactivate() {
 		base.deactivate();
+		GeneralRoomFeaturesScript.allowTurning = true;
 		parent.collider.enabled = true;
 	}
 	

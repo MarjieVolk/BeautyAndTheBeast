@@ -23,6 +23,11 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 	private Rect leftTurnButton;
 	private Rect rightTurnButton;
 	
+	private Texture2D leftCursor;
+	private Texture2D rightCursor;
+	private Vector2 leftHotSpot;
+	private Vector2 rightHotSpot;
+	
 	// Debug stuff
 	private static readonly Boolean debug = true;
 	private static readonly Rect screenRect = new Rect(10, 10, 200, 100);
@@ -34,6 +39,11 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 		float turnButtonWidth = Screen.width * 0.06f;
 		leftTurnButton = new Rect(0, 0, turnButtonWidth, Screen.height);
 		rightTurnButton = new Rect(Screen.width - turnButtonWidth, 0, turnButtonWidth, Screen.height);
+		
+		leftCursor = Resources.Load("Cursors/Turn Left") as Texture2D;
+		rightCursor = Resources.Load("Cursors/Turn Right") as Texture2D;
+		leftHotSpot = new Vector2(0, 9);
+		rightHotSpot = new Vector2(22, 9);
 	}
 	
 	// Update is called once per frame
@@ -46,11 +56,20 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 			GameState.saveCurrentGame();
 			prevSaveTime = Time.time;
 		}
+		
+		Vector2 mouseP = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+		if (isTurningEnabled() && leftTurnButton.Contains(mouseP)) {
+			CursorManager.takeCursorFocus(this, leftCursor, leftHotSpot);
+		} else if (isTurningEnabled() && rightTurnButton.Contains(mouseP)) {
+			CursorManager.takeCursorFocus(this, rightCursor, rightHotSpot);
+		} else {
+			CursorManager.giveUpCursorFocus(this);
+		}
 	}
 	
 	void OnGUI() {
 		// Turning buttons
-		if (Location.activeLocation != null && !showEscapeMenu && allowTurning) {
+		if (isTurningEnabled()) {
 			if (GUI.Button(leftTurnButton, "", GUIStyle.none)) {
 				Location.activeLocation.turnLeft();
 			} else if (GUI.Button(rightTurnButton, "", GUIStyle.none)) {
@@ -88,5 +107,9 @@ public class GeneralRoomFeaturesScript : MonoBehaviour {
 		if (GUILayout.Button("Resume")) {
 			showEscapeMenu = false;
 		}
+	}
+	
+	private bool isTurningEnabled() {
+		return Location.activeLocation != null && !showEscapeMenu && allowTurning;
 	}
 }
