@@ -17,6 +17,7 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 	
 	public Texture inventoryBackground;
 	public Texture selectedImage;
+    public float textureHeightPercent = 1;
 	public float percentScreenHeight = 0.13f;
 	public float topMargin = 0;
 	public float leftMargin = 0;
@@ -47,16 +48,16 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 		textures = getTextures(ids);
 		
 		float scale = (Screen.height * percentScreenHeight) / (inventoryBackground.height - topMargin);
-		
-		float height = inventoryBackground.height * scale;
+
+        float height = inventoryBackground.height * scale;
 		float width = inventoryBackground.width * scale;
 		float x = (Screen.width - width) / 2;
-		
-		topMargin *= scale;
+
+        topMargin *= scale * textureHeightPercent;
 		leftMargin *= scale;
 		rightMargin *= scale;
-		
-		openY = Screen.height - height;
+
+        openY = Screen.height - (height * textureHeightPercent);
 		closedY = Screen.height - topMargin;
 		
 		backgroundRect = new Rect(x, closedY, width, height);
@@ -190,7 +191,7 @@ public class InventoryRenderer : MonoBehaviour, GameStateListener {
 		float width = (backgroundRect.width - leftMargin - rightMargin) / textures.Length;
 		float x = backgroundRect.x + leftMargin + (i * width);
 		float y = backgroundRect.y + topMargin;
-		float height = backgroundRect.height - topMargin;
+        float height = backgroundRect.height * textureHeightPercent - topMargin;
 		return new Rect(x, y, width, height);
 	}
 	
